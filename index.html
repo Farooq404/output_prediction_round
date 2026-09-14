@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0A0E17" />
+<meta name="description" content="Technical Quiz — Output Prediction Challenge: predict the exact output of C programs, Easy to Hard." />
+<title>Technical Quiz — Output Prediction Challenge</title>
+<link rel="stylesheet" href="style.css" />
+<script>
+  // Apply saved theme before first paint to avoid a flash of the wrong theme.
+  (function () {
+    try {
+      if (localStorage.getItem("quiz-theme") === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============================================================ -->
+  <!-- HOME SCREEN                                                   -->
+  <!-- ============================================================ -->
+  <section id="screen-home" class="screen active">
+    <div class="home-wrap">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="40" height="40" fill="none">
+          <rect x="4" y="4" width="40" height="40" rx="10" stroke="currentColor" stroke-width="2.5"/>
+          <path d="M16 19 L11 24 L16 29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M32 19 L37 24 L32 29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M27 15 L21 33" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <p class="eyebrow">Output Prediction Challenge</p>
+      <h1 class="home-title">Technical Quiz</h1>
+      <p class="home-sub">Test your C programming logic.</p>
+
+      <div class="home-stats">
+        <div class="stat">
+          <span class="stat-num">9</span>
+          <span class="stat-label">Questions</span>
+        </div>
+        <div class="stat-div" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat-path">Easy <span class="arrow">→</span> Medium <span class="arrow">→</span> Hard</span>
+          <span class="stat-label">3 questions each</span>
+        </div>
+      </div>
+
+      <div class="timer-setup">
+        <span class="timer-setup-label">Timer per question</span>
+        <div class="timer-setup-inputs">
+          <input type="number" id="input-timer-min" class="timer-setup-input" min="0" max="20" value="2" inputmode="numeric" aria-label="Minutes" />
+          <span class="timer-setup-colon">:</span>
+          <input type="number" id="input-timer-sec" class="timer-setup-input" min="0" max="59" value="0" inputmode="numeric" aria-label="Seconds" />
+        </div>
+      </div>
+
+      <button id="btn-start-quiz" class="btn btn-primary btn-lg">Start Quiz</button>
+      <p class="fine-note">Scores are evaluated and recorded manually by the scorer.</p>
+
+      <div class="scoring-card">
+        <p class="eyebrow">Proposed Scoring System</p>
+        <p class="scoring-sub">A tiered scoring system is the easiest way to rank all teams simultaneously. Marks are awarded and recorded by the scorer — nothing here is calculated automatically.</p>
+
+        <div class="scoring-table">
+          <div class="scoring-row scoring-head">
+            <span>Condition</span>
+            <span>Points Awarded</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Perfect Answer (Fast)</strong>
+              <span>100% correct, submitted in under 2 minutes.</span>
+            </div>
+            <span class="scoring-points">10 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Perfect Answer (Standard)</strong>
+              <span>100% correct, submitted between 2 and 5 minutes.</span>
+            </div>
+            <span class="scoring-points">7 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Partial Accuracy</strong>
+              <span>Correct logic, but minor formatting/case-sensitivity mistake.</span>
+            </div>
+            <span class="scoring-points">3 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Incorrect / Blank</strong>
+              <span>Wrong output or failed to submit within 5 minutes.</span>
+            </div>
+            <span class="scoring-points">0 points</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- QUESTION SCREEN                                               -->
+  <!-- ============================================================ -->
+  <section id="screen-question" class="screen">
+    <header class="q-header">
+      <div class="q-header-left">
+        <span class="brand">Technical Quiz</span>
+      </div>
+      <div class="q-header-right">
+        <button id="btn-fullscreen" class="icon-btn" title="Fullscreen (F)" aria-label="Toggle fullscreen">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4"/>
+          </svg>
+        </button>
+        <span class="q-counter" id="qh-counter">Q 1 / 9</span>
+      </div>
+    </header>
+
+    <main class="q-body">
+      <div class="q-meta-row">
+        <span class="badge" id="q-difficulty">Easy</span>
+        <span class="q-unit" id="q-unit">Unit 1 • Operators &amp; Decision Making</span>
+      </div>
+
+      <p class="q-prompt" id="q-prompt">Predict the exact output of the following C program.</p>
+
+      <div class="code-card">
+        <div class="code-card-bar">
+          <span class="code-dot" style="--c:#EC6A5E"></span>
+          <span class="code-dot" style="--c:#F4BF4F"></span>
+          <span class="code-dot" style="--c:#61C554"></span>
+          <span class="code-filename">program.c</span>
+        </div>
+        <pre class="code-scroll"><code id="q-code"></code></pre>
+      </div>
+
+      <div class="answer-zone">
+        <button id="btn-toggle-answer" class="btn btn-outline">Show Answer</button>
+
+        <div id="answer-panel" class="answer-panel hidden">
+          <div class="answer-block">
+            <span class="answer-label">Correct Output</span>
+            <pre class="answer-output" id="q-answer"></pre>
+          </div>
+          <div class="explain-block">
+            <span class="explain-label">Explanation</span>
+            <p class="explain-text" id="q-explanation"></p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="q-nav">
+      <button id="btn-prev" class="btn btn-outline">← Previous</button>
+      <div class="progress-dots" id="progress-dots" aria-hidden="true"></div>
+      <button id="btn-next" class="btn btn-primary">Next →</button>
+    </footer>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- QUIZ COMPLETE SCREEN                                          -->
+  <!-- ============================================================ -->
+  <section id="screen-quiz-complete" class="screen">
+    <div class="interstitial-wrap">
+      <p class="eyebrow">Quiz Complete</p>
+      <h1 class="interstitial-title">Thank You</h1>
+      <p class="interstitial-sub">All nine questions have been presented. Scoring is handled by the scorer.</p>
+      <button id="btn-restart" class="btn btn-outline btn-lg">Return to Home</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- NIGHT MODE TOGGLE — fixed top-right, visible on every screen. -->
+<!-- ============================================================ -->
+<button id="btn-theme-toggle" class="icon-btn theme-toggle" title="Toggle night mode" aria-label="Toggle night mode">
+  <svg id="theme-icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg id="theme-icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </svg>
+</button>
+
+<!-- ============================================================ -->
+<!-- RIGHT-SIDE CLOCK TIMER — visual countdown for the host only.  -->
+<!-- Shown only during the question screen. Never auto-navigates, -->
+<!-- scores, or submits anything.                                 -->
+<!-- ============================================================ -->
+<aside id="timer-widget" class="timer-widget" aria-label="Presentation timer">
+  <div class="clock-face">
+    <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+      <g id="clock-ticks" class="clock-ticks"></g>
+      <circle class="clock-track" cx="60" cy="60" r="50"></circle>
+      <circle id="clock-progress" class="clock-progress" cx="60" cy="60" r="50"></circle>
+    </svg>
+    <div class="clock-center">
+      <span class="timer-display" id="timer-display">02:00</span>
+      <span class="time-up-flag hidden" id="time-up-flag">Time Up</span>
+    </div>
+  </div>
+  <div class="timer-controls">
+    <button id="btn-timer-toggle" class="btn btn-ghost btn-sm">Start</button>
+    <button id="btn-timer-reset" class="btn btn-ghost btn-sm">Reset</button>
+  </div>
+</aside>
+
+<!-- ============================================================ -->
+<!-- CONFIRM MODAL (Finish Quiz)                                   -->
+<!-- ============================================================ -->
+<div id="confirm-modal" class="modal-overlay hidden">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <p class="modal-text" id="confirm-text">Finish the quiz?</p>
+    <div class="modal-actions">
+      <button id="confirm-cancel" class="btn btn-outline">Cancel</button>
+      <button id="confirm-continue" class="btn btn-primary">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- keyboard hint, quietly available on question screen -->
+<div class="kbd-hint" id="kbd-hint">
+  <span><kbd>←</kbd><kbd>→</kbd> Navigate</span>
+  <span><kbd>A</kbd> Answer</span>
+  <span><kbd>T</kbd> Timer</span>
+  <span><kbd>R</kbd> Reset</span>
+  <span><kbd>F</kbd> Fullscreen</span>
+</div>
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

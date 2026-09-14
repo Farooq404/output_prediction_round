@@ -1,0 +1,889 @@
+/* ==========================================================================
+   TOKENS
+   ========================================================================== */
+:root {
+  --bg: #0A0E17;
+  --bg-raised: #10151F;
+  --card: #141A26;
+  --card-border: #232B3D;
+  --border-soft: #1C2334;
+
+  --text: #E7EBF3;
+  --text-dim: #93A0B8;
+  --text-faint: #5B6580;
+
+  --accent: #4FD8C4;
+  --accent-strong: #3FC4B0;
+  --accent-soft: rgba(79, 216, 196, 0.12);
+  --accent-border: rgba(79, 216, 196, 0.35);
+
+  --easy: #4FD8C4;
+  --easy-bg: rgba(79, 216, 196, 0.12);
+  --medium: #F2BB55;
+  --medium-bg: rgba(242, 187, 85, 0.12);
+  --hard: #F2705F;
+  --hard-bg: rgba(242, 112, 95, 0.12);
+
+  --code-bg: #060A11;
+  --code-border: #1B2333;
+
+  --code-text: #C7D1E3;
+  --tok-kw: #7FB1FF;
+  --tok-type: #63D3C4;
+  --tok-str: #E4C07A;
+  --tok-num: #E39A7A;
+  --tok-com: #5B6580;
+  --tok-fn: #D0A8FF;
+  --tok-pre: #8CE0C9;
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 7px;
+
+  --shadow-1: 0 1px 0 rgba(255,255,255,0.02) inset, 0 10px 30px rgba(0,0,0,0.35);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ==========================================================================
+   LIGHT THEME (night-mode toggle) — same tokens, light-mode values.
+   Applied via [data-theme="light"] on <html>, toggled in script.js and
+   persisted to localStorage. Dark (the :root defaults above) stays default.
+   ========================================================================== */
+[data-theme="light"] {
+  --bg: #F4F6FB;
+  --bg-raised: #FFFFFF;
+  --card: #FFFFFF;
+  --card-border: #E0E5F0;
+  --border-soft: #E7EAF3;
+
+  --text: #1A2030;
+  --text-dim: #545F79;
+  --text-faint: #848EA6;
+
+  --accent: #1E9C8B;
+  --accent-strong: #167F71;
+  --accent-soft: rgba(30, 156, 139, 0.10);
+  --accent-border: rgba(30, 156, 139, 0.35);
+
+  --easy: #1E9C8B;
+  --easy-bg: rgba(30, 156, 139, 0.10);
+  --medium: #B4790E;
+  --medium-bg: rgba(180, 121, 14, 0.10);
+  --hard: #CD4736;
+  --hard-bg: rgba(205, 71, 54, 0.10);
+
+  --code-bg: #EFF2F9;
+  --code-border: #DCE1EE;
+
+  --code-text: #1C2333;
+  --tok-kw: #1656C9;
+  --tok-type: #0B7A6B;
+  --tok-str: #8A5D00;
+  --tok-num: #B0451A;
+  --tok-com: #6B7690;
+  --tok-fn: #7C3AED;
+  --tok-pre: #0B7A6B;
+
+  --shadow-1: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 26px rgba(20,26,45,0.10);
+}
+[data-theme="light"] body {
+  background-image:
+    radial-gradient(1100px 500px at 15% -10%, rgba(30,156,139,0.06), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(30,156,139,0.045), transparent 55%);
+}
+[data-theme="light"] .modal-overlay {
+  background: rgba(26, 32, 48, 0.35);
+}
+[data-theme="light"] .kbd-hint {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* ==========================================================================
+   RESET / BASE
+   ========================================================================== */
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(1100px 500px at 15% -10%, rgba(79,216,196,0.05), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(79,216,196,0.035), transparent 55%);
+  color: var(--text);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+h1, h2, p { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ==========================================================================
+   SCREEN SWITCHING
+   ========================================================================== */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.screen {
+  display: none;
+}
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  animation: fade-in 0.22s var(--ease);
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.btn {
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  padding: 0.7rem 1.3rem;
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease), transform 0.1s var(--ease), color 0.15s var(--ease);
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--accent);
+  color: #06211D;
+  border-color: var(--accent);
+}
+.btn-primary:hover { background: var(--accent-strong); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--card-border);
+}
+.btn-outline:hover { border-color: var(--accent-border); color: var(--accent); }
+
+.btn-ghost {
+  background: var(--bg-raised);
+  color: var(--text-dim);
+  border-color: var(--border-soft);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--card-border); }
+
+.btn-lg { padding: 0.95rem 2.4rem; font-size: 1.02rem; }
+.btn-sm { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-dim);
+  border-radius: var(--radius-sm);
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.icon-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+
+.theme-toggle {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 40;
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-1);
+}
+
+/* ==========================================================================
+   HOME SCREEN
+   ========================================================================== */
+.home-wrap {
+  margin: auto;
+  width: 100%;
+  max-width: 680px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-wrap .btn-lg,
+.interstitial-wrap .btn-lg {
+  width: 100%;
+  max-width: 320px;
+}
+.mark {
+  color: var(--accent);
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-soft);
+  border-radius: 18px;
+  margin-bottom: 1.75rem;
+}
+.eyebrow {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+.home-title {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.home-sub {
+  color: var(--text-dim);
+  font-size: 1.08rem;
+  margin-top: 0.85rem;
+}
+.home-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin: 2.4rem 0 2.6rem;
+  padding: 1.1rem 1.6rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.stat { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+.stat-num { font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.stat-path { font-size: 0.95rem; font-weight: 600; }
+.stat-label { font-size: 0.75rem; color: var(--text-faint); margin-top: 0.15rem; }
+.stat-div { width: 1px; height: 34px; background: var(--card-border); }
+.arrow { color: var(--text-faint); margin: 0 0.15rem; }
+
+.fine-note {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  margin-top: 1.4rem;
+}
+
+/* Editable per-question timer duration, set before starting the quiz. */
+.timer-setup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-bottom: 1.6rem;
+}
+.timer-setup-label {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.timer-setup-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.timer-setup-input {
+  width: 3rem;
+  text-align: center;
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.2rem;
+  -moz-appearance: textfield;
+}
+.timer-setup-input:focus-visible {
+  border-color: var(--accent-border);
+}
+.timer-setup-input::-webkit-outer-spin-button,
+.timer-setup-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.timer-setup-colon {
+  color: var(--text-faint);
+  font-weight: 700;
+}
+
+/* Scoring guide (reference only — never calculated by the app) */
+.scoring-card {
+  width: 100%;
+  margin-top: 2.4rem;
+  padding: 1.5rem 1.6rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  text-align: left;
+}
+.scoring-card .eyebrow { margin-bottom: 0.35rem; }
+.scoring-sub {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin-bottom: 1.4rem;
+}
+.scoring-table {
+  display: flex;
+  flex-direction: column;
+}
+.scoring-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--border-soft);
+}
+.scoring-row:first-child { border-top: none; }
+.scoring-head {
+  padding-top: 0;
+  padding-bottom: 0.6rem;
+  color: var(--text-faint);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.scoring-condition {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.scoring-condition strong {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.scoring-condition span {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.scoring-points {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.92rem;
+  white-space: nowrap;
+  padding-top: 0.15rem;
+}
+
+/* ==========================================================================
+   INTERSTITIAL SCREEN (Quiz Complete)
+   ========================================================================== */
+.interstitial-wrap {
+  margin: auto;
+  width: 100%;
+  max-width: 560px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.interstitial-title {
+  font-size: clamp(2rem, 5.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 0.3rem;
+}
+.interstitial-sub {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  margin-top: 0.75rem;
+  margin-bottom: 2.2rem;
+}
+
+/* ==========================================================================
+   QUESTION SCREEN — HEADER
+   ========================================================================== */
+.q-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 4.4rem 1rem 1.75rem; /* extra right space clears the fixed theme toggle */
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-raised);
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.q-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+.brand {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+.q-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.q-counter {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   QUESTION SCREEN — BODY
+   ========================================================================== */
+.q-body {
+  flex: 1;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.q-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.badge.easy   { color: var(--easy);   background: var(--easy-bg);   border-color: rgba(79,216,196,0.3); }
+.badge.medium { color: var(--medium); background: var(--medium-bg); border-color: rgba(242,187,85,0.3); }
+.badge.hard   { color: var(--hard);   background: var(--hard-bg);   border-color: rgba(242,112,95,0.3); }
+
+.q-unit {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.q-prompt {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Code card */
+.code-card {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+.code-card-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  background: #0C111B;
+  border-bottom: 1px solid var(--code-border);
+}
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c);
+  opacity: 0.85;
+}
+.code-filename {
+  margin-left: 0.5rem;
+  color: var(--text-faint);
+  font-size: 0.78rem;
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
+}
+.code-scroll {
+  margin: 0;
+  padding: 1.25rem 1.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.code-scroll code {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  white-space: pre;
+  color: var(--code-text);
+  tab-size: 4;
+}
+/* lightweight token colors, applied via spans injected in JS */
+.tok-kw   { color: var(--tok-kw); }   /* keywords: if, for, while, return, int, struct... */
+.tok-type { color: var(--tok-type); }   /* types */
+.tok-str  { color: var(--tok-str); }   /* string / char literals */
+.tok-num  { color: var(--tok-num); }   /* numeric literals */
+.tok-com  { color: var(--tok-com); font-style: italic; } /* comments */
+.tok-fn   { color: var(--tok-fn); }   /* function names */
+.tok-pre  { color: var(--tok-pre); }   /* preprocessor #include etc. */
+
+/* Answer zone */
+.answer-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.answer-panel {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: reveal 0.18s var(--ease);
+}
+.answer-panel.hidden { display: none; }
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.answer-label, .explain-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+.answer-output {
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.explain-text {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   CLOCK TIMER — fixed to the right side of the viewport on the question
+   screen. Visual countdown only; the host controls it entirely by hand.
+   ========================================================================== */
+.timer-widget {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1rem;
+  box-shadow: var(--shadow-1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s var(--ease);
+}
+.timer-widget.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.clock-face {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.clock-face svg { display: block; width: 100%; height: 100%; }
+.clock-track {
+  fill: none;
+  stroke: var(--border-soft);
+  stroke-width: 6;
+}
+.clock-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transform-origin: 60px 60px;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 1s linear, stroke 0.2s var(--ease);
+}
+.clock-progress.low { stroke: var(--hard); }
+.tick {
+  stroke: var(--border-soft);
+  stroke-width: 1.5;
+}
+.tick-major {
+  stroke: var(--text-faint);
+  stroke-width: 2;
+}
+.clock-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+.timer-display {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.timer-display.low { color: var(--hard); }
+.time-up-flag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--hard);
+  background: var(--hard-bg);
+  border: 1px solid rgba(242,112,95,0.35);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+.time-up-flag.hidden { display: none; }
+.timer-controls { display: flex; gap: 0.5rem; }
+
+/* ==========================================================================
+   QUESTION SCREEN — FOOTER NAV
+   ========================================================================== */
+.q-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.75rem;
+  border-top: 1px solid var(--border-soft);
+  background: var(--bg-raised);
+}
+.progress-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+.progress-dots .pd {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--card-border);
+  transition: background 0.15s var(--ease), transform 0.15s var(--ease);
+}
+.progress-dots .pd.done { background: var(--accent); }
+.progress-dots .pd.current { background: var(--accent); transform: scale(1.35); }
+.progress-dots .pd.group-start { margin-left: 0.5rem; }
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 12, 0.7);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1.5rem;
+}
+.modal-overlay.hidden { display: none; }
+.modal-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-1);
+  animation: reveal 0.18s var(--ease);
+}
+.modal-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 1.4rem;
+  text-align: center;
+}
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   KEYBOARD HINT
+   ========================================================================== */
+.kbd-hint {
+  position: fixed;
+  bottom: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  gap: 1rem;
+  background: rgba(16, 21, 31, 0.92);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  z-index: 20;
+  backdrop-filter: blur(6px);
+}
+.kbd-hint.visible { display: flex; }
+.kbd-hint kbd {
+  font-family: inherit;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  margin-right: 0.3rem;
+  font-size: 0.72rem;
+}
+
+/* ==========================================================================
+   FULLSCREEN MODE
+   (toggled via a body class from script.js's fullscreenchange listener,
+   since the element that actually enters fullscreen is <html>, not <body>)
+   ========================================================================== */
+body.is-fullscreen .q-body {
+  max-width: 1040px;
+  padding-top: 2.75rem;
+}
+body.is-fullscreen .q-prompt {
+  font-size: 1.45rem;
+}
+body.is-fullscreen .code-scroll code {
+  font-size: 1.2rem;
+  line-height: 1.75;
+}
+body.is-fullscreen .answer-output {
+  font-size: 1.4rem;
+}
+body.is-fullscreen .explain-text {
+  font-size: 1.05rem;
+}
+body.is-fullscreen .q-header {
+  padding: 1.1rem 4.9rem 1.1rem 2.25rem;
+}
+body.is-fullscreen .timer-widget {
+  right: 2.25rem;
+}
+body.is-fullscreen .clock-face {
+  width: 150px;
+  height: 150px;
+}
+body.is-fullscreen .timer-display {
+  font-size: 1.7rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+  /* Below tablet width there isn't room for a left sidebar clock without
+     covering the code card, so it collapses into a compact bar docked
+     to the bottom of the screen instead. */
+  .timer-widget {
+    left: 50%;
+    top: auto;
+    bottom: 0.85rem;
+    transform: translateX(-50%);
+    flex-direction: row;
+    padding: 0.6rem 0.9rem;
+  }
+  .clock-face { width: 56px; height: 56px; }
+  .timer-display { font-size: 0.9rem; }
+  .time-up-flag { font-size: 0.55rem; }
+  .timer-controls { flex-direction: column; gap: 0.35rem; }
+  .timer-controls .btn { padding: 0.3rem 0.6rem; font-size: 0.72rem; }
+}
+
+@media (max-width: 640px) {
+  .theme-toggle { top: 0.7rem; right: 0.7rem; width: 30px; height: 30px; }
+  .q-header { padding: 0.85rem 3.1rem 0.85rem 1.1rem; }
+  .brand { display: none; }
+  .q-body { padding: 1.4rem 1rem 6.5rem; gap: 1rem; }
+  .q-prompt { font-size: 1.05rem; }
+  .code-scroll { padding: 1rem; }
+  .code-scroll code { font-size: 0.85rem; }
+  .q-nav { padding: 0.9rem 1rem; }
+  .btn { padding: 0.65rem 1rem; font-size: 0.88rem; }
+  .btn-lg { padding: 0.85rem 1.7rem; }
+  .home-stats { gap: 1rem; padding: 1rem; }
+  .scoring-card { padding: 1.2rem 1.1rem; }
+  .scoring-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  .scoring-points { padding-top: 0; }
+  .kbd-hint { display: none !important; }
+}
+
+@media (min-width: 1400px) {
+  .q-body { max-width: 980px; }
+  .q-prompt { font-size: 1.35rem; }
+  .code-scroll code { font-size: 1.05rem; }
+}
+
+@media (max-width: 400px) {
+  .home-wrap { padding: 2.2rem 1rem; }
+  .home-title { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .home-stats { flex-direction: column; gap: 0.9rem; }
+  .stat-div { width: 100%; height: 1px; }
+  .q-meta-row { gap: 0.5rem; }
+  .q-counter { font-size: 0.82rem; padding: 0.3rem 0.55rem; }
+  .code-scroll { padding: 0.85rem; }
+  .code-scroll code { font-size: 0.78rem; }
+  .q-nav { flex-wrap: wrap; gap: 0.6rem; }
+  .progress-dots { order: 3; width: 100%; justify-content: center; }
+  .btn-outline, .btn-primary { flex: 1; }
+}

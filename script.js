@@ -67,12 +67,20 @@
     qDifficulty: document.getElementById("q-difficulty"),
     qUnit: document.getElementById("q-unit"),
     qPrompt: document.getElementById("q-prompt"),
+    qNavBar: document.getElementById("q-nav-bar"),
     codeCard: document.getElementById("code-card"),
     codeFilename: document.getElementById("code-filename"),
     codeCardHint: document.getElementById("code-card-hint"),
     qCode: document.getElementById("q-code"),
     qAnswer: document.getElementById("q-answer"),
     qExplanation: document.getElementById("q-explanation"),
+
+    rulesModal: document.getElementById("rules-modal"),
+    rulesModalTitle: document.getElementById("rules-modal-title"),
+    rulesModalBody: document.getElementById("rules-modal-body"),
+    rulesModalCloseX: document.getElementById("rules-modal-close-x"),
+    rulesModalClose: document.getElementById("rules-modal-close"),
+    rulesModalStart: document.getElementById("rules-modal-start"),
 
     btnToggleAnswer: document.getElementById("btn-toggle-answer"),
     answerPanel: document.getElementById("answer-panel"),
@@ -103,6 +111,108 @@
     confirmContinue: document.getElementById("confirm-continue"),
   };
 
+  let pendingRoundType = "prediction";
+
+  /* ------------------------------------------------------------------ */
+  /* RULES MODAL POPUP                                                  */
+  /* ------------------------------------------------------------------ */
+  function openRulesModal(roundType) {
+    pendingRoundType = roundType;
+    if (roundType === "prediction") {
+      el.rulesModalTitle.textContent = "Proposed Scoring System — Output Prediction";
+      el.rulesModalBody.innerHTML = `
+        <p class="scoring-sub">A tiered scoring system is used for ranking. Marks are awarded and recorded by the scorer.</p>
+        <div class="scoring-table">
+          <div class="scoring-row scoring-head">
+            <span>Condition</span>
+            <span>Points Awarded</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Perfect Answer (Fast)</strong>
+              <span>100% correct, submitted in under 2 minutes.</span>
+            </div>
+            <span class="scoring-points">10 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Perfect Answer (Standard)</strong>
+              <span>100% correct, submitted between 2 and 5 minutes.</span>
+            </div>
+            <span class="scoring-points">7 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Partial Accuracy</strong>
+              <span>Correct logic with a minor formatting/case-sensitivity mistake.</span>
+            </div>
+            <span class="scoring-points">3 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Incorrect / Blank</strong>
+              <span>Wrong output or failed to submit within 5 minutes.</span>
+            </div>
+            <span class="scoring-points">0 points</span>
+          </div>
+        </div>
+      `;
+    } else {
+      el.rulesModalTitle.textContent = "Programming Round Scoring System";
+      el.rulesModalBody.innerHTML = `
+        <p class="scoring-sub">Maximum score for each programming question is 10 points.</p>
+        <div class="scoring-table">
+          <div class="scoring-row scoring-head">
+            <span>Category &amp; Criteria</span>
+            <span>Points Awarded</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Correctness and Test Case Passing</strong>
+              <span>Logic correctly solves standard inputs: 3 points<br>Correctly handles edge cases: 2 points</span>
+            </div>
+            <span class="scoring-points">5 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Time Management</strong>
+              <span>Finished within 0–5 minutes: 3 points<br>Finished within 5–8 minutes: 2 points<br>Finished within 8–10 minutes: 1 point</span>
+            </div>
+            <span class="scoring-points">3 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Code Quality and Readability</strong>
+              <span>Good variable/naming conventions: 1 point<br>Clean structure, indentation, and formatting: 1 point</span>
+            </div>
+            <span class="scoring-points">2 points</span>
+          </div>
+        </div>
+      `;
+    }
+    el.rulesModal.classList.remove("hidden");
+  }
+
+  function closeRulesModal() {
+    el.rulesModal.classList.add("hidden");
+  }
+
+  el.btnStartPrediction.addEventListener("click", () => openRulesModal("prediction"));
+  el.btnStartProgramming.addEventListener("click", () => openRulesModal("programming"));
+  if (el.rulesModalCloseX) el.rulesModalCloseX.addEventListener("click", closeRulesModal);
+  if (el.rulesModalClose) el.rulesModalClose.addEventListener("click", closeRulesModal);
+  if (el.rulesModalStart) {
+    el.rulesModalStart.addEventListener("click", () => {
+      closeRulesModal();
+      startRound(pendingRoundType);
+    });
+  }
+  if (el.rulesModal) {
+    el.rulesModal.addEventListener("click", (e) => {
+      if (e.target === el.rulesModal) closeRulesModal();
+    });
+  }
+
   /* ------------------------------------------------------------------ */
   /* SCREEN SWITCHING                                                   */
   /* ------------------------------------------------------------------ */
@@ -127,12 +237,16 @@
   function startRound(roundType) {
     state.roundType = roundType;
     state.questionIndex = 0;
+
+    if (roundType === "prediction") {
+      loadStoredTimerDuration();
+    } else if (roundType === "programming") {
+      timerDuration = 600; // 10-minute time limit for programming questions
+    }
+
     renderQuestion();
     showScreen("question");
   }
-
-  el.btnStartPrediction.addEventListener("click", () => startRound("prediction"));
-  el.btnStartProgramming.addEventListener("click", () => startRound("programming"));
 
   /* ------------------------------------------------------------------ */
   /* LIGHTWEIGHT C SYNTAX HIGHLIGHTING                                  */
@@ -187,20 +301,23 @@
     const total = questions.length;
     const q = questions[state.questionIndex];
 
+    if (isProgramming) {
+      timerDuration = 600; // Ensure 10-minute limit per programming question
+    }
+
     el.qBrand.textContent = isProgramming ? "Programming Round" : "Output Prediction";
     el.qhCounter.textContent = `Q ${state.questionIndex + 1} / ${total}`;
 
-    // Difficulty badge only exists for the Output Prediction round.
+    // Difficulty badge.
     if (q.difficulty) {
       el.qDifficulty.textContent = q.difficulty;
-      el.qDifficulty.className = "badge " + q.difficulty.toLowerCase();
+      el.qDifficulty.className = "badge " + q.difficulty.toLowerCase().replace(/[^a-z]/g, "");
       el.qDifficulty.classList.remove("hidden");
     } else {
       el.qDifficulty.classList.add("hidden");
     }
 
-    // Unit label only exists for the Output Prediction round; the
-    // Programming Round shows the problem title in its place instead.
+    // Unit label / Problem title.
     if (q.unit) {
       el.qUnit.textContent = q.unit;
       el.qUnit.classList.remove("hidden");
@@ -211,18 +328,20 @@
       el.qUnit.classList.add("hidden");
     }
 
-    el.qPrompt.textContent = q.question;
+    el.qPrompt.innerHTML = q.question;
     el.qCode.innerHTML = highlightC(q.code);
     el.codeFilename.textContent = isProgramming ? "solution.c" : "program.c";
 
-    // Programming Round: keep the code (model answer) hidden until the
-    // host reveals it, so it doesn't give the solution away up front.
+    // Programming Round: keep the solution code hidden until "Reveal Answer" is clicked.
     el.codeCard.classList.toggle("hidden", isProgramming);
     el.codeCardHint.classList.toggle("hidden", !isProgramming);
+    if (isProgramming) {
+      el.codeCardHint.textContent = "Solve the question — click Reveal Answer to display the model C solution.";
+    } else {
+      el.codeCardHint.textContent = "Solve it on paper — the model answer will appear here when you click Show Answer.";
+    }
 
-    // Output Prediction has a short "Correct Output" answer; the
-    // Programming Round's answer IS the revealed code, so that block
-    // (and any explanation, when present) is only shown for prediction.
+    // Output Prediction has a short "Correct Output" answer; Programming Round's answer IS the revealed code.
     el.answerBlock.classList.toggle("hidden", isProgramming);
     if (!isProgramming) {
       el.qAnswer.textContent = q.answer;
@@ -233,6 +352,9 @@
     } else {
       el.explainBlock.classList.add("hidden");
     }
+
+    // Question number navigation.
+    renderQuestionNumberNav();
 
     // Answer always hidden on entering a new question.
     setAnswerVisible(false);
@@ -248,12 +370,39 @@
     renderProgressDots(total);
   }
 
+  function renderQuestionNumberNav() {
+    if (!el.qNavBar) return;
+    const questions = activeQuestions();
+    const total = questions.length;
+    el.qNavBar.innerHTML = "";
+
+    for (let i = 0; i < total; i++) {
+      if (i > 0) {
+        const sep = document.createElement("span");
+        sep.className = "q-nav-sep";
+        sep.textContent = "|";
+        el.qNavBar.appendChild(sep);
+      }
+
+      const btn = document.createElement("button");
+      btn.className = "q-nav-btn";
+      if (i === state.questionIndex) {
+        btn.classList.add("active");
+      }
+      btn.textContent = `Question ${i + 1}`;
+      btn.addEventListener("click", () => {
+        state.questionIndex = i;
+        renderQuestion();
+      });
+      el.qNavBar.appendChild(btn);
+    }
+  }
+
   function renderProgressDots(total) {
     el.progressDots.innerHTML = "";
     for (let i = 0; i < total; i++) {
       const dot = document.createElement("span");
       dot.className = "pd";
-      // Small visual break every 3 questions (one Easy/Medium/Hard round each).
       if (i > 0 && i % 3 === 0) dot.classList.add("group-start");
       if (i < state.questionIndex) dot.classList.add("done");
       if (i === state.questionIndex) dot.classList.add("current");
@@ -267,10 +416,10 @@
   function setAnswerVisible(visible) {
     state.answerVisible = visible;
     el.answerPanel.classList.toggle("hidden", !visible);
-    el.btnToggleAnswer.textContent = visible ? "Hide Answer" : "Show Answer";
+    const defaultText = state.roundType === "programming" ? "Reveal Answer" : "Show Answer";
+    el.btnToggleAnswer.textContent = visible ? "Hide Answer" : defaultText;
 
-    // Programming Round: the model-answer code card doubles as the
-    // answer reveal, so it stays hidden (behind the hint) until now.
+    // Programming Round: the model-answer code card doubles as the answer reveal.
     if (state.roundType === "programming") {
       el.codeCard.classList.toggle("hidden", !visible);
       el.codeCardHint.classList.toggle("hidden", visible);

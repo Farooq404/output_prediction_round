@@ -48,7 +48,7 @@
         </div>
         <div class="round-card">
           <p class="round-card-title">Programming Round</p>
-          <p class="round-card-stat">6 questions · Write the function</p>
+          <p class="round-card-stat">4 questions · 10 min per question</p>
           <button id="btn-start-programming" class="btn btn-primary" data-round="programming">Start Programming Round</button>
         </div>
       </div>
@@ -63,46 +63,6 @@
       </div>
 
       <p class="fine-note">Scores are evaluated and recorded manually by the scorer.</p>
-
-      <div class="scoring-card">
-        <p class="eyebrow">Proposed Scoring System</p>
-        <p class="scoring-sub">A tiered scoring system is the easiest way to rank all teams simultaneously. Marks are awarded and recorded by the scorer — nothing here is calculated automatically.</p>
-
-        <div class="scoring-table">
-          <div class="scoring-row scoring-head">
-            <span>Condition</span>
-            <span>Points Awarded</span>
-          </div>
-          <div class="scoring-row">
-            <div class="scoring-condition">
-              <strong>Perfect Answer (Fast)</strong>
-              <span>100% correct, submitted in under 2 minutes.</span>
-            </div>
-            <span class="scoring-points">10 points</span>
-          </div>
-          <div class="scoring-row">
-            <div class="scoring-condition">
-              <strong>Perfect Answer (Standard)</strong>
-              <span>100% correct, submitted between 2 and 5 minutes.</span>
-            </div>
-            <span class="scoring-points">7 points</span>
-          </div>
-          <div class="scoring-row">
-            <div class="scoring-condition">
-              <strong>Partial Accuracy</strong>
-              <span>Correct logic, but minor formatting/case-sensitivity mistake.</span>
-            </div>
-            <span class="scoring-points">3 points</span>
-          </div>
-          <div class="scoring-row">
-            <div class="scoring-condition">
-              <strong>Incorrect / Blank</strong>
-              <span>Wrong output or failed to submit within 5 minutes.</span>
-            </div>
-            <span class="scoring-points">0 points</span>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -125,6 +85,8 @@
     </header>
 
     <main class="q-body">
+      <nav class="q-nav-bar" id="q-nav-bar" aria-label="Question Navigation"></nav>
+
       <div class="q-meta-row">
         <span class="badge" id="q-difficulty">Easy</span>
         <span class="q-unit" id="q-unit">Unit 1 • Operators &amp; Decision Making</span>
@@ -216,6 +178,23 @@
     <button id="btn-timer-reset" class="btn btn-ghost btn-sm">Reset</button>
   </div>
 </aside>
+
+<!-- ============================================================ -->
+<!-- SCORING RULES MODAL                                           -->
+<!-- ============================================================ -->
+<div id="rules-modal" class="modal-overlay hidden">
+  <div class="modal-card modal-card-lg" role="dialog" aria-modal="true">
+    <div class="modal-card-header">
+      <h2 class="modal-card-title" id="rules-modal-title">Proposed Scoring System</h2>
+      <button id="rules-modal-close-x" class="icon-btn" aria-label="Close scoring rules">&times;</button>
+    </div>
+    <div class="modal-card-body" id="rules-modal-body"></div>
+    <div class="modal-actions">
+      <button id="rules-modal-close" class="btn btn-outline">Close</button>
+      <button id="rules-modal-start" class="btn btn-primary">Start Quiz →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ============================================================ -->
 <!-- CONFIRM MODAL (Finish Quiz)                                   -->

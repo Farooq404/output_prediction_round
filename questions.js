@@ -233,151 +233,337 @@ int main() {
 /**
  * PROGRAMMING ROUND
  * -----------------------------------------------------------------------
- * Flat difficulty (no Easy/Medium/Hard tags). The problem statement is
- * shown on screen; the code stays hidden until the host clicks
- * "Show Answer", which reveals the model solution below as the reference
- * for scoring.
+ * Flat difficulty. The problem statement, edge cases, and test cases are
+ * shown on screen; the C solution stays hidden until the user clicks
+ * "Reveal Answer".
  *
- * Each question object:
- * {
- *   id:       number  (display order, 1–6)
- *   title:    string  (short problem name)
- *   question: string  (problem statement shown to participants)
- *   code:     string  (model-answer C source, revealed on request)
- * }
+ * Each question has a 10-minute time limit.
  * -----------------------------------------------------------------------
  */
 const programmingQuestions = [
   {
     id: 1,
-    title: "The Manual String Reversal",
-    question:
-      "Write a function void reverse_string(char str[]) that reverses a given string in place, without using any built-in reverse function.",
-    code: `#include <stdio.h>
-#include <string.h>
+    title: "Find the Maximum and Minimum in an Array",
+    difficulty: "Very Easy",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program that takes an array of integers and finds both the maximum and minimum values in the array.</p>
+</div>
 
-// Reverses the string in-place by swapping characters
-void reverse_string(char str[]) {
-    int length = strlen(str);
-    for (int i = 0; i < length / 2; i++) {
-        char temp = str[i];
-        str[i] = str[length - i - 1];
-        str[length - i - 1] = temp;
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>Single element array: <code>[5]</code> — maximum and minimum should both be 5.</li>
+    <li>All identical elements: <code>[3, 3, 3, 3]</code>.</li>
+    <li>Negative numbers: <code>[-5, -1, -10, -3]</code>.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5
+10 5 8 2 15</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 15
+Minimum: 2</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>1
+5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 5
+Minimum: 5</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+3 3 3 3</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 3
+Minimum: 3</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+-5 -1 -10 -3</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: -1
+Minimum: -10</pre></div>
+    </div>
+  </div>
+</div>`,
+    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    int arr[100];
+
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) return 0;
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
     }
+
+    int max = arr[0];
+    int min = arr[0];
+
+    for (i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+    }
+
+    printf("Maximum: %d\\n", max);
+    printf("Minimum: %d\\n", min);
+
+    return 0;
 }`,
   },
 
   {
     id: 2,
-    title: "The Palindrome Number Checker",
-    question:
-      "Write a function bool is_palindrome(int num) that returns true if the given integer reads the same forwards and backwards, and false otherwise.",
+    title: "Count Even and Odd Numbers",
+    difficulty: "Easy",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program to count how many even and odd numbers are present in a given array of integers.</p>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>All numbers are even.</li>
+    <li>All numbers are odd.</li>
+    <li>0 should be counted as even.</li>
+    <li>Negative numbers such as -3 and -4.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5
+1 2 3 4 5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 2
+Odd numbers count: 3</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+2 4 6 8</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 4
+Odd numbers count: 0</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+1 3 5 7</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 0
+Odd numbers count: 4</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+0 -3 -4 7</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 2
+Odd numbers count: 2</pre></div>
+    </div>
+  </div>
+</div>`,
     code: `#include <stdio.h>
-#include <stdbool.h>
 
-// Returns true (1) if palindrome, false (0) if not
-bool is_palindrome(int num) {
-    int original_num = num;
-    int reversed_num = 0;
+int main() {
+    int n, i;
+    int arr[100];
+    int evenCount = 0, oddCount = 0;
 
-    while (num > 0) {
-        int digit = num % 10;
-        reversed_num = (reversed_num * 10) + digit;
-        num = num / 10;
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) return 0;
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+
+        if (arr[i] % 2 == 0) {
+            evenCount++;
+        } else {
+            oddCount++;
+        }
     }
 
-    return original_num == reversed_num;
+    printf("Even numbers count: %d\\n", evenCount);
+    printf("Odd numbers count: %d\\n", oddCount);
+
+    return 0;
 }`,
   },
 
   {
     id: 3,
-    title: "Factorial Using Recursion",
-    question:
-      "Write a recursive function long long recursive_factorial(int n) that returns the factorial of a non-negative integer n.",
+    title: "Factorial Calculation",
+    difficulty: "Easy",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program to calculate the factorial of a given non-negative integer N.</p>
+  <p><em>Remember: 0! = 1</em></p>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>Input 0 should produce 1.</li>
+    <li>Input 1 should produce 1.</li>
+    <li>Small values such as 2 and 5.</li>
+    <li>Use an appropriate integer type to reduce overflow issues.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 5 = 120</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>0</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 0 = 1</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>1</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 1 = 1</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>10</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 10 = 3628800</pre></div>
+    </div>
+  </div>
+</div>`,
     code: `#include <stdio.h>
 
-// Using long long to prevent integer overflow for larger factorials
-long long recursive_factorial(int n) {
-    if (n == 0 || n == 1) {
-        return 1;
-    } else {
-        return n * recursive_factorial(n - 1);
+int main() {
+    int n, i;
+    unsigned long long factorial = 1;
+
+    printf("Enter a non-negative integer: ");
+    if (scanf("%d", &n) != 1 || n < 0) return 0;
+
+    for (i = 1; i <= n; i++) {
+        factorial *= i;
     }
+
+    printf("Factorial of %d = %llu\\n", n, factorial);
+
+    return 0;
 }`,
   },
 
   {
     id: 4,
-    title: "Find the Second Largest Number",
-    question:
-      "Write a function int second_largest(int arr[], int size) that returns the second largest distinct value in an array of integers.",
+    title: "Linear Search for a Key",
+    difficulty: "Medium (Beginner Level)",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program to search for a specific target value (key) in an array.</p>
+  <p>If the key is found, print its index. Otherwise, print that the element is not present.</p>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>Key is at the first position (index 0).</li>
+    <li>Key is at the last position.</li>
+    <li>Key is not present.</li>
+    <li>Duplicate values — return the first occurrence.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5
+10 20 30 40 50
+30</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Element found at index 2</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+5 10 15 20
+5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Element found at index 0</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+5 10 15 20
+20</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Element found at index 3</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+5 10 15 20
+25</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Element not found in the array.</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 5</strong>
+      <div class="tc-block"><span>Input:</span><pre>5
+10 20 10 30 10
+10</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Element found at index 0</pre></div>
+    </div>
+  </div>
+</div>`,
     code: `#include <stdio.h>
-#include <limits.h> // Required for INT_MIN
 
-int second_largest(int arr[], int size) {
-    int largest = INT_MIN;
-    int second = INT_MIN;
+int main() {
+    int n, i, key, found = 0;
+    int arr[100];
 
-    for (int i = 0; i < size; i++) {
-        if (arr[i] > largest) {
-            second = largest;
-            largest = arr[i];
-        } else if (arr[i] > second && arr[i] != largest) {
-            second = arr[i];
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) return 0;
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Enter element to search: ");
+    if (scanf("%d", &key) != 1) return 0;
+
+    for (i = 0; i < n; i++) {
+        if (arr[i] == key) {
+            printf("Element found at index %d\\n", i);
+            found = 1;
+            break;
         }
     }
 
-    return second;
-}`,
-  },
-
-  {
-    id: 5,
-    title: "Vowels and Consonants Counter",
-    question:
-      "Write a function void count_letters(char str[]) that counts and prints the number of vowels and consonants in a given string, ignoring any non-alphabetic characters.",
-    code: `#include <stdio.h>
-#include <ctype.h> // Required for isalpha() and tolower()
-
-void count_letters(char str[]) {
-    int v_count = 0;
-    int c_count = 0;
-
-    // Loop continues until it hits the null terminator '\\0'
-    for (int i = 0; str[i] != '\\0'; i++) {
-        if (isalpha(str[i])) { // Only check alphabetical characters
-            char ch = tolower(str[i]);
-            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
-                v_count++;
-            } else {
-                c_count++;
-            }
-        }
+    if (!found) {
+        printf("Element not found in the array.\\n");
     }
 
-    printf("Vowels: %d, Consonants: %d\\n", v_count, c_count);
-}`,
-  },
-
-  {
-    id: 6,
-    title: "Find the Missing Number in a Sequence",
-    question:
-      "Write a function int find_missing_number(int arr[], int size, int n) that finds the single missing number from an array containing size distinct integers taken from the range 1 to n.",
-    code: `#include <stdio.h>
-
-// 'size' is the length of the array, 'n' is the maximum number in the sequence
-int find_missing_number(int arr[], int size, int n) {
-    // Mathematical formula for the sum of the first N numbers
-    int expected_sum = n * (n + 1) / 2;
-    int actual_sum = 0;
-
-    for (int i = 0; i < size; i++) {
-        actual_sum += arr[i];
-    }
-
-    return expected_sum - actual_sum;
+    return 0;
 }`,
   },
 ];
+

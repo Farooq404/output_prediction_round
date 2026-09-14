@@ -290,6 +290,39 @@ h1, h2, p { margin: 0; }
 .stat-div { width: 1px; height: 34px; background: var(--card-border); }
 .arrow { color: var(--text-faint); margin: 0 0.15rem; }
 
+/* Home screen: choose which round to run. */
+.round-picker {
+  display: flex;
+  gap: 1.1rem;
+  margin: 2.4rem 0 1.8rem;
+  width: 100%;
+}
+.round-card {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.4rem 1.2rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+.round-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.round-card-stat {
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  margin-bottom: 0.4rem;
+}
+.round-card .btn {
+  width: 100%;
+}
+
 .fine-note {
   color: var(--text-faint);
   font-size: 0.85rem;
@@ -543,6 +576,18 @@ h1, h2, p { margin: 0; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+/* Shown instead of the code card in the Programming Round, before the
+   model answer is revealed. */
+.code-card-hint {
+  color: var(--text-faint);
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+  padding: 1.6rem;
+  background: var(--card);
+  border: 1px dashed var(--card-border);
+  border-radius: var(--radius-lg);
+}
 .code-scroll code {
   font-family: ui-monospace, "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, Menlo, monospace;
   font-size: 0.95rem;
@@ -578,6 +623,7 @@ h1, h2, p { margin: 0; }
   gap: 1rem;
   animation: reveal 0.18s var(--ease);
 }
+.hidden { display: none !important; }
 .answer-panel.hidden { display: none; }
 @keyframes reveal {
   from { opacity: 0; transform: translateY(-3px); }
@@ -878,6 +924,7 @@ body.is-fullscreen .timer-display {
   .home-wrap { padding: 2.2rem 1rem; }
   .home-title { font-size: clamp(2rem, 9vw, 2.6rem); }
   .home-stats { flex-direction: column; gap: 0.9rem; }
+  .round-picker { flex-direction: column; }
   .stat-div { width: 100%; height: 1px; }
   .q-meta-row { gap: 0.5rem; }
   .q-counter { font-size: 0.82rem; padding: 0.3rem 0.55rem; }

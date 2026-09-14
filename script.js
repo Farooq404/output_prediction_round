@@ -27,7 +27,8 @@
   /* ------------------------------------------------------------------ */
   const state = {
     screen: "home",
-    questionIndex: 0, // 0-based index into `questions`
+    roundType: "prediction", // "prediction" | "programming" — set when a round is started
+    questionIndex: 0, // 0-based index into the active question set
     answerVisible: false,
     timer: {
       remaining: timerDuration,
@@ -35,6 +36,11 @@
       intervalId: null,
     },
   };
+
+  // Returns the question array for whichever round is currently active.
+  function activeQuestions() {
+    return state.roundType === "programming" ? programmingQuestions : predictionQuestions;
+  }
 
   /* ------------------------------------------------------------------ */
   /* DOM REFERENCES                                                     */
@@ -46,7 +52,8 @@
   };
 
   const el = {
-    btnStartQuiz: document.getElementById("btn-start-quiz"),
+    btnStartPrediction: document.getElementById("btn-start-prediction"),
+    btnStartProgramming: document.getElementById("btn-start-programming"),
 
     inputTimerMin: document.getElementById("input-timer-min"),
     inputTimerSec: document.getElementById("input-timer-sec"),
@@ -55,16 +62,22 @@
     themeIconMoon: document.getElementById("theme-icon-moon"),
     themeIconSun: document.getElementById("theme-icon-sun"),
 
+    qBrand: document.getElementById("q-brand"),
     qhCounter: document.getElementById("qh-counter"),
     qDifficulty: document.getElementById("q-difficulty"),
     qUnit: document.getElementById("q-unit"),
     qPrompt: document.getElementById("q-prompt"),
+    codeCard: document.getElementById("code-card"),
+    codeFilename: document.getElementById("code-filename"),
+    codeCardHint: document.getElementById("code-card-hint"),
     qCode: document.getElementById("q-code"),
     qAnswer: document.getElementById("q-answer"),
     qExplanation: document.getElementById("q-explanation"),
 
     btnToggleAnswer: document.getElementById("btn-toggle-answer"),
     answerPanel: document.getElementById("answer-panel"),
+    answerBlock: document.getElementById("answer-block"),
+    explainBlock: document.getElementById("explain-block"),
 
     timerWidget: document.getElementById("timer-widget"),
     clockProgress: document.getElementById("clock-progress"),
@@ -79,6 +92,7 @@
     progressDots: document.getElementById("progress-dots"),
 
     btnRestart: document.getElementById("btn-restart"),
+    completeSub: document.getElementById("complete-sub"),
 
     btnFullscreen: document.getElementById("btn-fullscreen"),
     kbdHint: document.getElementById("kbd-hint"),
@@ -110,11 +124,15 @@
     showScreen("home");
   }
 
-  el.btnStartQuiz.addEventListener("click", () => {
+  function startRound(roundType) {
+    state.roundType = roundType;
     state.questionIndex = 0;
     renderQuestion();
     showScreen("question");
-  });
+  }
+
+  el.btnStartPrediction.addEventListener("click", () => startRound("prediction"));
+  el.btnStartProgramming.addEventListener("click", () => startRound("programming"));
 
   /* ------------------------------------------------------------------ */
   /* LIGHTWEIGHT C SYNTAX HIGHLIGHTING                                  */
@@ -164,20 +182,57 @@
   /* QUESTION RENDERING                                                 */
   /* ------------------------------------------------------------------ */
   function renderQuestion() {
+    const isProgramming = state.roundType === "programming";
+    const questions = activeQuestions();
     const total = questions.length;
     const q = questions[state.questionIndex];
 
+    el.qBrand.textContent = isProgramming ? "Programming Round" : "Output Prediction";
     el.qhCounter.textContent = `Q ${state.questionIndex + 1} / ${total}`;
 
-    el.qDifficulty.textContent = q.difficulty;
-    el.qDifficulty.className = "badge " + q.difficulty.toLowerCase();
+    // Difficulty badge only exists for the Output Prediction round.
+    if (q.difficulty) {
+      el.qDifficulty.textContent = q.difficulty;
+      el.qDifficulty.className = "badge " + q.difficulty.toLowerCase();
+      el.qDifficulty.classList.remove("hidden");
+    } else {
+      el.qDifficulty.classList.add("hidden");
+    }
 
-    el.qUnit.textContent = q.unit;
+    // Unit label only exists for the Output Prediction round; the
+    // Programming Round shows the problem title in its place instead.
+    if (q.unit) {
+      el.qUnit.textContent = q.unit;
+      el.qUnit.classList.remove("hidden");
+    } else if (q.title) {
+      el.qUnit.textContent = q.title;
+      el.qUnit.classList.remove("hidden");
+    } else {
+      el.qUnit.classList.add("hidden");
+    }
+
     el.qPrompt.textContent = q.question;
     el.qCode.innerHTML = highlightC(q.code);
+    el.codeFilename.textContent = isProgramming ? "solution.c" : "program.c";
 
-    el.qAnswer.textContent = q.answer;
-    el.qExplanation.textContent = q.explanation;
+    // Programming Round: keep the code (model answer) hidden until the
+    // host reveals it, so it doesn't give the solution away up front.
+    el.codeCard.classList.toggle("hidden", isProgramming);
+    el.codeCardHint.classList.toggle("hidden", !isProgramming);
+
+    // Output Prediction has a short "Correct Output" answer; the
+    // Programming Round's answer IS the revealed code, so that block
+    // (and any explanation, when present) is only shown for prediction.
+    el.answerBlock.classList.toggle("hidden", isProgramming);
+    if (!isProgramming) {
+      el.qAnswer.textContent = q.answer;
+    }
+    if (q.explanation) {
+      el.qExplanation.textContent = q.explanation;
+      el.explainBlock.classList.remove("hidden");
+    } else {
+      el.explainBlock.classList.add("hidden");
+    }
 
     // Answer always hidden on entering a new question.
     setAnswerVisible(false);
@@ -213,6 +268,13 @@
     state.answerVisible = visible;
     el.answerPanel.classList.toggle("hidden", !visible);
     el.btnToggleAnswer.textContent = visible ? "Hide Answer" : "Show Answer";
+
+    // Programming Round: the model-answer code card doubles as the
+    // answer reveal, so it stays hidden (behind the hint) until now.
+    if (state.roundType === "programming") {
+      el.codeCard.classList.toggle("hidden", !visible);
+      el.codeCardHint.classList.toggle("hidden", visible);
+    }
   }
 
   function toggleAnswer() {
@@ -225,7 +287,7 @@
   /* NAVIGATION                                                         */
   /* ------------------------------------------------------------------ */
   function goNext() {
-    const isLast = state.questionIndex === questions.length - 1;
+    const isLast = state.questionIndex === activeQuestions().length - 1;
 
     if (isLast) {
       askFinishQuiz();
@@ -254,6 +316,9 @@
 
   function completeQuiz() {
     pauseTimer();
+    const total = activeQuestions().length;
+    const roundName = state.roundType === "programming" ? "Programming Round" : "Output Prediction";
+    el.completeSub.textContent = `All ${total} ${roundName} questions have been presented. Scoring is handled by the scorer.`;
     showScreen("quizComplete");
   }
 

@@ -40,15 +40,16 @@
       <h1 class="home-title">Technical Quiz</h1>
       <p class="home-sub">Test your C programming logic.</p>
 
-      <div class="home-stats">
-        <div class="stat">
-          <span class="stat-num">9</span>
-          <span class="stat-label">Questions</span>
+      <div class="round-picker">
+        <div class="round-card">
+          <p class="round-card-title">Output Prediction</p>
+          <p class="round-card-stat">9 questions · Easy → Medium → Hard</p>
+          <button id="btn-start-prediction" class="btn btn-primary" data-round="prediction">Start Output Prediction</button>
         </div>
-        <div class="stat-div" aria-hidden="true"></div>
-        <div class="stat">
-          <span class="stat-path">Easy <span class="arrow">→</span> Medium <span class="arrow">→</span> Hard</span>
-          <span class="stat-label">3 questions each</span>
+        <div class="round-card">
+          <p class="round-card-title">Programming Round</p>
+          <p class="round-card-stat">6 questions · Write the function</p>
+          <button id="btn-start-programming" class="btn btn-primary" data-round="programming">Start Programming Round</button>
         </div>
       </div>
 
@@ -61,7 +62,6 @@
         </div>
       </div>
 
-      <button id="btn-start-quiz" class="btn btn-primary btn-lg">Start Quiz</button>
       <p class="fine-note">Scores are evaluated and recorded manually by the scorer.</p>
 
       <div class="scoring-card">
@@ -112,7 +112,7 @@
   <section id="screen-question" class="screen">
     <header class="q-header">
       <div class="q-header-left">
-        <span class="brand">Technical Quiz</span>
+        <span class="brand" id="q-brand">Technical Quiz</span>
       </div>
       <div class="q-header-right">
         <button id="btn-fullscreen" class="icon-btn" title="Fullscreen (F)" aria-label="Toggle fullscreen">
@@ -132,25 +132,27 @@
 
       <p class="q-prompt" id="q-prompt">Predict the exact output of the following C program.</p>
 
-      <div class="code-card">
+      <div class="code-card" id="code-card">
         <div class="code-card-bar">
           <span class="code-dot" style="--c:#EC6A5E"></span>
           <span class="code-dot" style="--c:#F4BF4F"></span>
           <span class="code-dot" style="--c:#61C554"></span>
-          <span class="code-filename">program.c</span>
+          <span class="code-filename" id="code-filename">program.c</span>
         </div>
         <pre class="code-scroll"><code id="q-code"></code></pre>
       </div>
+
+      <p class="code-card-hint hidden" id="code-card-hint">Solve it on paper — the model answer will appear here when you click Show Answer.</p>
 
       <div class="answer-zone">
         <button id="btn-toggle-answer" class="btn btn-outline">Show Answer</button>
 
         <div id="answer-panel" class="answer-panel hidden">
-          <div class="answer-block">
+          <div class="answer-block" id="answer-block">
             <span class="answer-label">Correct Output</span>
             <pre class="answer-output" id="q-answer"></pre>
           </div>
-          <div class="explain-block">
+          <div class="explain-block" id="explain-block">
             <span class="explain-label">Explanation</span>
             <p class="explain-text" id="q-explanation"></p>
           </div>
@@ -172,7 +174,7 @@
     <div class="interstitial-wrap">
       <p class="eyebrow">Quiz Complete</p>
       <h1 class="interstitial-title">Thank You</h1>
-      <p class="interstitial-sub">All nine questions have been presented. Scoring is handled by the scorer.</p>
+      <p class="interstitial-sub" id="complete-sub">All nine questions have been presented. Scoring is handled by the scorer.</p>
       <button id="btn-restart" class="btn btn-outline btn-lg">Return to Home</button>
     </div>
   </section>

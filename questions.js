@@ -21,7 +21,7 @@
  * -----------------------------------------------------------------------
  */
 
-const questions = [
+const predictionQuestions = [
   // ---------------------------------------------------------- ROUND 1: EASY
   {
     id: 1,
@@ -227,5 +227,157 @@ int main() {
     answer: "8",
     explanation:
       "When i = 1, case 1 executes and falls through to case 2 because there is no break after case 1. The sum becomes 3. When i = 2, case 2 adds 2, making the sum 5. When i = 3, case 3 adds 3, making the final sum 8.",
+  },
+];
+
+/**
+ * PROGRAMMING ROUND
+ * -----------------------------------------------------------------------
+ * Flat difficulty (no Easy/Medium/Hard tags). The problem statement is
+ * shown on screen; the code stays hidden until the host clicks
+ * "Show Answer", which reveals the model solution below as the reference
+ * for scoring.
+ *
+ * Each question object:
+ * {
+ *   id:       number  (display order, 1–6)
+ *   title:    string  (short problem name)
+ *   question: string  (problem statement shown to participants)
+ *   code:     string  (model-answer C source, revealed on request)
+ * }
+ * -----------------------------------------------------------------------
+ */
+const programmingQuestions = [
+  {
+    id: 1,
+    title: "The Manual String Reversal",
+    question:
+      "Write a function void reverse_string(char str[]) that reverses a given string in place, without using any built-in reverse function.",
+    code: `#include <stdio.h>
+#include <string.h>
+
+// Reverses the string in-place by swapping characters
+void reverse_string(char str[]) {
+    int length = strlen(str);
+    for (int i = 0; i < length / 2; i++) {
+        char temp = str[i];
+        str[i] = str[length - i - 1];
+        str[length - i - 1] = temp;
+    }
+}`,
+  },
+
+  {
+    id: 2,
+    title: "The Palindrome Number Checker",
+    question:
+      "Write a function bool is_palindrome(int num) that returns true if the given integer reads the same forwards and backwards, and false otherwise.",
+    code: `#include <stdio.h>
+#include <stdbool.h>
+
+// Returns true (1) if palindrome, false (0) if not
+bool is_palindrome(int num) {
+    int original_num = num;
+    int reversed_num = 0;
+
+    while (num > 0) {
+        int digit = num % 10;
+        reversed_num = (reversed_num * 10) + digit;
+        num = num / 10;
+    }
+
+    return original_num == reversed_num;
+}`,
+  },
+
+  {
+    id: 3,
+    title: "Factorial Using Recursion",
+    question:
+      "Write a recursive function long long recursive_factorial(int n) that returns the factorial of a non-negative integer n.",
+    code: `#include <stdio.h>
+
+// Using long long to prevent integer overflow for larger factorials
+long long recursive_factorial(int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        return n * recursive_factorial(n - 1);
+    }
+}`,
+  },
+
+  {
+    id: 4,
+    title: "Find the Second Largest Number",
+    question:
+      "Write a function int second_largest(int arr[], int size) that returns the second largest distinct value in an array of integers.",
+    code: `#include <stdio.h>
+#include <limits.h> // Required for INT_MIN
+
+int second_largest(int arr[], int size) {
+    int largest = INT_MIN;
+    int second = INT_MIN;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] > largest) {
+            second = largest;
+            largest = arr[i];
+        } else if (arr[i] > second && arr[i] != largest) {
+            second = arr[i];
+        }
+    }
+
+    return second;
+}`,
+  },
+
+  {
+    id: 5,
+    title: "Vowels and Consonants Counter",
+    question:
+      "Write a function void count_letters(char str[]) that counts and prints the number of vowels and consonants in a given string, ignoring any non-alphabetic characters.",
+    code: `#include <stdio.h>
+#include <ctype.h> // Required for isalpha() and tolower()
+
+void count_letters(char str[]) {
+    int v_count = 0;
+    int c_count = 0;
+
+    // Loop continues until it hits the null terminator '\\0'
+    for (int i = 0; str[i] != '\\0'; i++) {
+        if (isalpha(str[i])) { // Only check alphabetical characters
+            char ch = tolower(str[i]);
+            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                v_count++;
+            } else {
+                c_count++;
+            }
+        }
+    }
+
+    printf("Vowels: %d, Consonants: %d\\n", v_count, c_count);
+}`,
+  },
+
+  {
+    id: 6,
+    title: "Find the Missing Number in a Sequence",
+    question:
+      "Write a function int find_missing_number(int arr[], int size, int n) that finds the single missing number from an array containing size distinct integers taken from the range 1 to n.",
+    code: `#include <stdio.h>
+
+// 'size' is the length of the array, 'n' is the maximum number in the sequence
+int find_missing_number(int arr[], int size, int n) {
+    // Mathematical formula for the sum of the first N numbers
+    int expected_sum = n * (n + 1) / 2;
+    int actual_sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        actual_sum += arr[i];
+    }
+
+    return expected_sum - actual_sum;
+}`,
   },
 ];

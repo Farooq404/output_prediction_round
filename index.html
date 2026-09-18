@@ -85,6 +85,11 @@
           <p class="round-card-stat">4 questions · 10 min per question</p>
           <button id="btn-start-programming" class="btn btn-primary" data-round="programming">Start Programming Round</button>
         </div>
+        <div class="round-card">
+          <p class="round-card-title">AI Web Sprint</p>
+          <p class="round-card-stat">Website Creation · 10-min Build</p>
+          <button id="btn-start-aisprint" class="btn btn-primary" data-round="aisprint">Start AI Web Sprint</button>
+        </div>
       </div>
 
       <div class="timer-setup">
@@ -173,6 +178,334 @@
       <p class="interstitial-sub" id="complete-sub">All nine questions have been presented. Scoring is handled by the scorer.</p>
       <button id="btn-restart" class="btn btn-outline btn-lg">Return to Home</button>
     </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- AI WEB SPRINT SCREEN                                          -->
+  <!-- ============================================================ -->
+  <section id="screen-aisprint" class="screen">
+    <header class="q-header">
+      <div class="q-header-left">
+        <button id="btn-aisprint-back" class="btn btn-outline btn-sm">← Back to Home</button>
+        <span class="brand">AI Web Sprint</span>
+      </div>
+      <div class="q-header-right">
+        <span class="badge easy">10-Minute Build</span>
+      </div>
+    </header>
+
+    <main class="sprint-body">
+      <!-- Section 1: Hero & Marks Breakdown (Slide 1) -->
+      <div class="sprint-hero-card">
+        <div class="sprint-hero-header">
+          <p class="sprint-eyebrow">WEBSITE CREATION ROUND</p>
+          <h1 class="sprint-title">AI WEB SPRINT</h1>
+          <p class="sprint-subtitle">A 10-Minute AI-Assisted Build Challenge</p>
+          <div class="sprint-pill-tag">⚡ 10-Minute AI-Assisted Build Challenge</div>
+        </div>
+
+        <div class="sprint-info-grid">
+          <div class="sprint-info-block">
+            <strong>CHALLENGE</strong>
+            <p>Build a working single-page website in 10 minutes. AI tools are allowed. You may implement up to 4 functionalities from the 7 choices.</p>
+          </div>
+          <div class="sprint-info-block">
+            <strong>OBJECTIVE</strong>
+            <p>Choose strategically, build fast, make every selected feature work, polish the UI, and be ready to explain your implementation.</p>
+          </div>
+        </div>
+
+        <div class="marks-breakdown">
+          <div class="mark-card">
+            <span class="mark-num">20</span>
+            <span class="mark-label">UP TO 4 FUNCTIONALITIES</span>
+            <span class="mark-sub">(4 × 5)</span>
+          </div>
+          <div class="mark-card">
+            <span class="mark-num">5</span>
+            <span class="mark-label">UI / UX</span>
+            <span class="mark-sub">&nbsp;</span>
+          </div>
+          <div class="mark-card">
+            <span class="mark-num">5</span>
+            <span class="mark-label">SURPRISE TECHNICAL QUESTION</span>
+            <span class="mark-sub">&nbsp;</span>
+          </div>
+          <div class="mark-card mark-total">
+            <span class="mark-num">30</span>
+            <span class="mark-label">TOTAL MARKS</span>
+            <span class="mark-sub">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Functionality Menu (Slide 2 & 3) -->
+      <div class="sprint-section">
+        <div class="sprint-section-header">
+          <span class="ppt-badge">CHOOSE UP TO 4</span>
+          <h2 class="sprint-section-title">Functionality Menu</h2>
+        </div>
+        <p class="sprint-section-intro">
+          Choose any 1–4 functionalities from the 7 options below. All selected functionalities must exist on the same single webpage. Each selected functionality is worth 5 marks — earned only when its mandatory components are present and the functionality actually works during evaluation. Static mockups, screenshots, decorative buttons, hard-coded results, or non-working interactions do not count.
+        </p>
+
+        <div class="func-grid">
+          <!-- Card 1 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">1</span>
+              <h3 class="func-title">Calculator</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Real arithmetic calculator.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Numbers 0–9</span>
+                <span class="chip">Operators +, −, ×, ÷</span>
+                <span class="chip">Input/result display</span>
+                <span class="chip">Clear/reset</span>
+                <span class="chip">Working calculations</span>
+                <span class="chip">Correct result output</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">2</span>
+              <h3 class="func-title">To-Do List</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Add and manage tasks.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Task input</span>
+                <span class="chip">Add control</span>
+                <span class="chip">Visible task list</span>
+                <span class="chip">Mark Done/Complete</span>
+                <span class="chip">Delete task</span>
+                <span class="chip">List updates after actions</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">3</span>
+              <h3 class="func-title">Snake Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Playable grid-based Snake game.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Snake movement</span>
+                <span class="chip">Random food</span>
+                <span class="chip">Score</span>
+                <span class="chip">Wall collision</span>
+                <span class="chip">Self collision</span>
+                <span class="chip">Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">4</span>
+              <h3 class="func-title">Aim Reaction Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Timed target-clicking reaction challenge.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Random target</span>
+                <span class="chip">Clickable target</span>
+                <span class="chip">Reaction-time measurement</span>
+                <span class="chip">Score/result</span>
+                <span class="chip">Timer/game duration</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">5</span>
+              <h3 class="func-title">Ping Pong Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Playable Pong-style game.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Player paddle control</span>
+                <span class="chip">Ball movement</span>
+                <span class="chip">Ball collision/bounce</span>
+                <span class="chip">Opponent/second paddle</span>
+                <span class="chip">Score</span>
+                <span class="chip">Win/Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">6</span>
+              <h3 class="func-title">Dinosaur Runner Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Endless runner where the dinosaur avoids obstacles.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Dinosaur character</span>
+                <span class="chip">Obstacle generation</span>
+                <span class="chip">Jump control</span>
+                <span class="chip">Collision detection</span>
+                <span class="chip">Score</span>
+                <span class="chip">Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">7</span>
+              <h3 class="func-title">Flappy Bird / Bird Flapping Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc">What it should do: Side-scrolling bird game.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Bird flap/control</span>
+                <span class="chip">Gravity/falling movement</span>
+                <span class="chip">Obstacle generation</span>
+                <span class="chip">Collision detection</span>
+                <span class="chip">Score for passing obstacles</span>
+                <span class="chip">Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Rules & Regulations (Slide 4) -->
+      <div class="sprint-section">
+        <div class="sprint-section-header">
+          <span class="ppt-badge">READ CAREFULLY</span>
+          <h2 class="sprint-section-title">Rules &amp; Regulations</h2>
+        </div>
+
+        <div class="ppt-rules-container">
+          <div class="rule-item">
+            <span class="rule-num">1</span>
+            <div class="rule-text"><strong>10-Minute Limit</strong> — The build time is strictly 10 minutes.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">2</span>
+            <div class="rule-text"><strong>Maximum 4 Functionalities</strong> — You may implement a maximum of 4 of the 7 listed functionalities.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">3</span>
+            <div class="rule-text"><strong>Single Webpage</strong> — All selected functionalities must be available on one webpage.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">4</span>
+            <div class="rule-text"><strong>Working Functionality</strong> — A visual mockup, static button, screenshot, placeholder, or fake output does not count as a working feature.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">5</span>
+            <div class="rule-text"><strong>Mandatory Components</strong> — Each selected functionality has fixed mandatory components. Missing or non-working core components can reduce or forfeit its 5 marks.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">6</span>
+            <div class="rule-text"><strong>AI Tools Allowed</strong> — AI coding assistants and other AI tools are allowed. Participants remain responsible for understanding their submitted work.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">7</span>
+            <div class="rule-text"><strong>One Surprise Technical Question</strong> — Only one surprise technical question will be asked. It can be about any one functionality you selected and is worth 5 marks only.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">8</span>
+            <div class="rule-text"><strong>Technical Understanding</strong> — Your answer should show understanding of the relevant implementation logic, such as events, state, calculations, movement, collision detection, timers, or other feature-specific logic.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">9</span>
+            <div class="rule-text"><strong>UI / UX</strong> — The complete website receives a separate 5-mark UI/UX score.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">10</span>
+            <div class="rule-text"><strong>End of Build</strong> — After the 10-minute build period, do not continue developing unless organizers explicitly permit it.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4 & 5: UI / UX & Final Check (Slide 5) -->
+      <div class="sprint-section">
+        <div class="sprint-section-header">
+          <span class="ppt-badge">5 MARKS</span>
+          <h2 class="sprint-section-title">UI / UX</h2>
+        </div>
+
+        <div class="uiux-grid">
+          <div class="uiux-card">
+            <div class="uiux-icon-box">🎨</div>
+            <h3>Visual Design</h3>
+            <p>Clean and attractive</p>
+          </div>
+          <div class="uiux-card">
+            <div class="uiux-icon-box">📐</div>
+            <h3>Layout &amp; Spacing</h3>
+            <p>Clear alignment and structure</p>
+          </div>
+          <div class="uiux-card">
+            <div class="uiux-icon-box">✨</div>
+            <h3>Creativity</h3>
+            <p>Original presentation</p>
+          </div>
+          <div class="uiux-card">
+            <div class="uiux-icon-box">📱</div>
+            <h3>Responsiveness</h3>
+            <p>Works cleanly on screen</p>
+          </div>
+          <div class="uiux-card">
+            <div class="uiux-icon-box">😊</div>
+            <h3>User-Friendliness</h3>
+            <p>Easy to understand/use</p>
+          </div>
+        </div>
+
+        <div class="sprint-final-check">
+          <h3 class="final-check-title">FINAL CHECK</h3>
+          <div class="final-check-grid">
+            <span><i class="check-icon">✓</i> Up to 4 features</span>
+            <span><i class="check-icon">✓</i> One webpage</span>
+            <span><i class="check-icon">✓</i> Mandatory components present</span>
+            <span><i class="check-icon">✓</i> Features work</span>
+            <span><i class="check-icon">✓</i> UI polished</span>
+            <span><i class="check-icon">✓</i> Ready for one technical question</span>
+          </div>
+        </div>
+
+        <div class="dashed-tagline-wrap">
+          <p class="dashed-tagline">CHOOSE WISELY · BUILD QUICKLY · MAKE IT WORK · MAKE IT LOOK GOOD · EXPLAIN WHAT YOU BUILT</p>
+        </div>
+      </div>
+    </main>
   </section>
 
 </div>

@@ -49,11 +49,14 @@
     home: document.getElementById("screen-home"),
     question: document.getElementById("screen-question"),
     quizComplete: document.getElementById("screen-quiz-complete"),
+    aiSprint: document.getElementById("screen-aisprint"),
   };
 
   const el = {
     btnStartPrediction: document.getElementById("btn-start-prediction"),
     btnStartProgramming: document.getElementById("btn-start-programming"),
+    btnStartAiSprint: document.getElementById("btn-start-aisprint"),
+    btnAiSprintBack: document.getElementById("btn-aisprint-back"),
 
     inputTimerMin: document.getElementById("input-timer-min"),
     inputTimerSec: document.getElementById("input-timer-sec"),
@@ -199,6 +202,8 @@
 
   el.btnStartPrediction.addEventListener("click", () => openRulesModal("prediction"));
   el.btnStartProgramming.addEventListener("click", () => openRulesModal("programming"));
+  if (el.btnStartAiSprint) el.btnStartAiSprint.addEventListener("click", () => startRound("aisprint"));
+  if (el.btnAiSprintBack) el.btnAiSprintBack.addEventListener("click", goHome);
   if (el.rulesModalCloseX) el.rulesModalCloseX.addEventListener("click", closeRulesModal);
   if (el.rulesModalClose) el.rulesModalClose.addEventListener("click", closeRulesModal);
   if (el.rulesModalStart) {
@@ -217,8 +222,10 @@
   /* SCREEN SWITCHING                                                   */
   /* ------------------------------------------------------------------ */
   function showScreen(name) {
-    Object.values(screens).forEach((s) => s.classList.remove("active"));
-    screens[name].classList.add("active");
+    Object.values(screens).forEach((s) => {
+      if (s) s.classList.remove("active");
+    });
+    if (screens[name]) screens[name].classList.add("active");
     state.screen = name;
 
     const onQuestion = name === "question";
@@ -237,6 +244,11 @@
   function startRound(roundType) {
     state.roundType = roundType;
     state.questionIndex = 0;
+
+    if (roundType === "aisprint") {
+      showScreen("aiSprint");
+      return;
+    }
 
     if (roundType === "prediction") {
       loadStoredTimerDuration();

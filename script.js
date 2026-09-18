@@ -14,6 +14,7 @@
   const TIMER_DEFAULT = 120; // seconds (2:00) — fallback shown in the homepage input
   const TIMER_MIN_SECONDS = 10;
   const TIMER_MAX_SECONDS = 20 * 60;
+  const PREDICTION_ROUND_SECONDS = 420; // 7:00 per pair for Output Prediction round
   const CLOCK_RADIUS = 50;
   const CLOCK_CIRCUMFERENCE = 2 * Math.PI * CLOCK_RADIUS;
 
@@ -112,6 +113,34 @@
     confirmText: document.getElementById("confirm-text"),
     confirmCancel: document.getElementById("confirm-cancel"),
     confirmContinue: document.getElementById("confirm-continue"),
+
+    qBody: document.getElementById("q-body"),
+    singleQuestionView: document.getElementById("single-question-view"),
+    pairQuestionView: document.getElementById("pair-question-view"),
+
+    p1Difficulty: document.getElementById("p1-difficulty"),
+    p1Unit: document.getElementById("p1-unit"),
+    p1Number: document.getElementById("p1-number"),
+    p1Prompt: document.getElementById("p1-prompt"),
+    p1Filename: document.getElementById("p1-filename"),
+    p1Code: document.getElementById("p1-code"),
+    p1BtnAnswer: document.getElementById("p1-btn-answer"),
+    p1AnswerPanel: document.getElementById("p1-answer-panel"),
+    p1Answer: document.getElementById("p1-answer"),
+    p1Explanation: document.getElementById("p1-explanation"),
+    p1ExplainBlock: document.getElementById("p1-explain-block"),
+
+    p2Difficulty: document.getElementById("p2-difficulty"),
+    p2Unit: document.getElementById("p2-unit"),
+    p2Number: document.getElementById("p2-number"),
+    p2Prompt: document.getElementById("p2-prompt"),
+    p2Filename: document.getElementById("p2-filename"),
+    p2Code: document.getElementById("p2-code"),
+    p2BtnAnswer: document.getElementById("p2-btn-answer"),
+    p2AnswerPanel: document.getElementById("p2-answer-panel"),
+    p2Answer: document.getElementById("p2-answer"),
+    p2Explanation: document.getElementById("p2-explanation"),
+    p2ExplainBlock: document.getElementById("p2-explain-block"),
   };
 
   let pendingRoundType = "prediction";
@@ -122,9 +151,11 @@
   function openRulesModal(roundType) {
     pendingRoundType = roundType;
     if (roundType === "prediction") {
-      el.rulesModalTitle.textContent = "Proposed Scoring System — Output Prediction";
+      if (el.inputTimerMin) el.inputTimerMin.disabled = true;
+      if (el.inputTimerSec) el.inputTimerSec.disabled = true;
+      el.rulesModalTitle.textContent = "Output Prediction Scoring System";
       el.rulesModalBody.innerHTML = `
-        <p class="scoring-sub">A tiered scoring system is used for ranking. Marks are awarded and recorded by the scorer.</p>
+        <p class="scoring-sub"><strong>Round 1 — Easy Pair (Q2, Q4)</strong> &bull; Max 7:00 total</p>
         <div class="scoring-table">
           <div class="scoring-row scoring-head">
             <span>Condition</span>
@@ -132,35 +163,71 @@
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Perfect Answer (Fast)</strong>
-              <span>100% correct, submitted in under 2 minutes.</span>
+              <strong>Both correct within first 3 minutes</strong>
+              <span>(2 + 2 + 2 bonus)</span>
+            </div>
+            <span class="scoring-points">6 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Both correct within 3 to 7 minutes</strong>
+              <span>(2 + 2)</span>
+            </div>
+            <span class="scoring-points">4 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Only one correct (any time within 7 min)</strong>
+              <span>(2 + 0)</span>
+            </div>
+            <span class="scoring-points">2 points</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Otherwise / None correct</strong>
+            </div>
+            <span class="scoring-points">0 points</span>
+          </div>
+        </div>
+
+        <p class="scoring-sub" style="margin-top: 1.25rem;"><strong>Round 2 — Medium Pair (Q1, Q9)</strong> &bull; Max 7:00 total</p>
+        <div class="scoring-table">
+          <div class="scoring-row scoring-head">
+            <span>Condition</span>
+            <span>Points Awarded</span>
+          </div>
+          <div class="scoring-row">
+            <div class="scoring-condition">
+              <strong>Both correct within first 3 minutes</strong>
+              <span>(3 + 3 + 4 bonus)</span>
             </div>
             <span class="scoring-points">10 points</span>
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Perfect Answer (Standard)</strong>
-              <span>100% correct, submitted between 2 and 5 minutes.</span>
+              <strong>Both correct within 3 to 7 minutes</strong>
+              <span>(3 + 3)</span>
             </div>
-            <span class="scoring-points">7 points</span>
+            <span class="scoring-points">6 points</span>
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Partial Accuracy</strong>
-              <span>Correct logic with a minor formatting/case-sensitivity mistake.</span>
+              <strong>Only one correct (any time within 7 min)</strong>
+              <span>(3 + 0)</span>
             </div>
             <span class="scoring-points">3 points</span>
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Incorrect / Blank</strong>
-              <span>Wrong output or failed to submit within 5 minutes.</span>
+              <strong>Otherwise / None correct</strong>
             </div>
             <span class="scoring-points">0 points</span>
           </div>
         </div>
       `;
     } else {
+      if (el.inputTimerMin) el.inputTimerMin.disabled = false;
+      if (el.inputTimerSec) el.inputTimerSec.disabled = false;
       el.rulesModalTitle.textContent = "Programming Round Scoring System";
       el.rulesModalBody.innerHTML = `
         <p class="scoring-sub">Maximum score for each programming question is 10 points.</p>
@@ -251,7 +318,7 @@
     }
 
     if (roundType === "prediction") {
-      loadStoredTimerDuration();
+      timerDuration = PREDICTION_ROUND_SECONDS;
     } else if (roundType === "programming") {
       timerDuration = 600; // 10-minute time limit for programming questions
     }
@@ -307,17 +374,160 @@
   /* ------------------------------------------------------------------ */
   /* QUESTION RENDERING                                                 */
   /* ------------------------------------------------------------------ */
+  let p1AnswerVisible = false;
+  let p2AnswerVisible = false;
+
+  function setP1AnswerVisible(vis) {
+    p1AnswerVisible = vis;
+    if (el.p1AnswerPanel) el.p1AnswerPanel.classList.toggle("hidden", !vis);
+    if (el.p1BtnAnswer) el.p1BtnAnswer.textContent = vis ? "Hide Answer" : "Show Answer";
+  }
+
+  function setP2AnswerVisible(vis) {
+    p2AnswerVisible = vis;
+    if (el.p2AnswerPanel) el.p2AnswerPanel.classList.toggle("hidden", !vis);
+    if (el.p2BtnAnswer) el.p2BtnAnswer.textContent = vis ? "Hide Answer" : "Show Answer";
+  }
+
+  function toggleP1Answer() {
+    setP1AnswerVisible(!p1AnswerVisible);
+  }
+
+  function toggleP2Answer() {
+    setP2AnswerVisible(!p2AnswerVisible);
+  }
+
+  if (el.p1BtnAnswer) el.p1BtnAnswer.addEventListener("click", toggleP1Answer);
+  if (el.p2BtnAnswer) el.p2BtnAnswer.addEventListener("click", toggleP2Answer);
+
+  function renderPredictionPair() {
+    const pairIdx = state.questionIndex; // 0 or 1
+    const totalPairs = 2;
+    const qA = predictionQuestions[pairIdx * 2];
+    const qB = predictionQuestions[pairIdx * 2 + 1];
+    const qANum = pairIdx * 2 + 1;
+    const qBNum = pairIdx * 2 + 2;
+
+    timerDuration = PREDICTION_ROUND_SECONDS; // 420 (7:00)
+
+    el.qBrand.textContent = "Output Prediction";
+    el.qhCounter.textContent = `Round ${pairIdx + 1} / ${totalPairs} (Q ${qANum} & ${qBNum})`;
+
+    if (el.qBody) el.qBody.classList.add("paired-view");
+    if (el.singleQuestionView) el.singleQuestionView.classList.add("hidden");
+    if (el.pairQuestionView) el.pairQuestionView.classList.remove("hidden");
+
+    // Populate Card 1
+    if (el.p1Difficulty && qA) {
+      el.p1Difficulty.textContent = qA.difficulty;
+      el.p1Difficulty.className = "badge " + qA.difficulty.toLowerCase().replace(/[^a-z]/g, "");
+    }
+    if (el.p1Unit && qA) el.p1Unit.textContent = qA.unit;
+    if (el.p1Number) el.p1Number.textContent = `Question ${qANum}`;
+    if (el.p1Prompt && qA) el.p1Prompt.innerHTML = qA.question;
+    if (el.p1Filename) el.p1Filename.textContent = `program_${qANum}.c`;
+    if (el.p1Code && qA) el.p1Code.innerHTML = highlightC(qA.code);
+    if (el.p1Answer && qA) el.p1Answer.textContent = qA.answer;
+    if (el.p1Explanation && qA) {
+      el.p1Explanation.textContent = qA.explanation;
+      if (el.p1ExplainBlock) el.p1ExplainBlock.classList.remove("hidden");
+    } else if (el.p1ExplainBlock) {
+      el.p1ExplainBlock.classList.add("hidden");
+    }
+
+    // Populate Card 2
+    if (el.p2Difficulty && qB) {
+      el.p2Difficulty.textContent = qB.difficulty;
+      el.p2Difficulty.className = "badge " + qB.difficulty.toLowerCase().replace(/[^a-z]/g, "");
+    }
+    if (el.p2Unit && qB) el.p2Unit.textContent = qB.unit;
+    if (el.p2Number) el.p2Number.textContent = `Question ${qBNum}`;
+    if (el.p2Prompt && qB) el.p2Prompt.innerHTML = qB.question;
+    if (el.p2Filename) el.p2Filename.textContent = `program_${qBNum}.c`;
+    if (el.p2Code && qB) el.p2Code.innerHTML = highlightC(qB.code);
+    if (el.p2Answer && qB) el.p2Answer.textContent = qB.answer;
+    if (el.p2Explanation && qB) {
+      el.p2Explanation.textContent = qB.explanation;
+      if (el.p2ExplainBlock) el.p2ExplainBlock.classList.remove("hidden");
+    } else if (el.p2ExplainBlock) {
+      el.p2ExplainBlock.classList.add("hidden");
+    }
+
+    // Reset answer visibility
+    setP1AnswerVisible(false);
+    setP2AnswerVisible(false);
+
+    // Reset 7-minute timer for this pair
+    resetTimer();
+
+    // Nav bar & dots
+    renderPredictionNavBar();
+    renderPredictionDots(totalPairs);
+
+    el.btnPrev.disabled = pairIdx === 0;
+    el.btnNext.textContent = pairIdx === totalPairs - 1 ? "Finish Quiz" : "Next →";
+  }
+
+  function renderPredictionNavBar() {
+    if (!el.qNavBar) return;
+    el.qNavBar.innerHTML = "";
+
+    const pairs = [
+      { name: "Round 1 (Q1 & Q2)", index: 0 },
+      { name: "Round 2 (Q3 & Q4)", index: 1 },
+    ];
+
+    pairs.forEach((pair, idx) => {
+      if (idx > 0) {
+        const sep = document.createElement("span");
+        sep.className = "q-nav-sep";
+        sep.textContent = "|";
+        el.qNavBar.appendChild(sep);
+      }
+
+      const btn = document.createElement("button");
+      btn.className = "q-nav-btn";
+      if (idx === state.questionIndex) {
+        btn.classList.add("active");
+      }
+      btn.textContent = pair.name;
+      btn.addEventListener("click", () => {
+        state.questionIndex = idx;
+        renderQuestion();
+      });
+      el.qNavBar.appendChild(btn);
+    });
+  }
+
+  function renderPredictionDots(total) {
+    el.progressDots.innerHTML = "";
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement("span");
+      dot.className = "pd";
+      if (i < state.questionIndex) dot.classList.add("done");
+      if (i === state.questionIndex) dot.classList.add("current");
+      el.progressDots.appendChild(dot);
+    }
+  }
+
   function renderQuestion() {
+    if (state.roundType === "prediction") {
+      renderPredictionPair();
+      return;
+    }
+
+    if (el.qBody) el.qBody.classList.remove("paired-view");
+    if (el.pairQuestionView) el.pairQuestionView.classList.add("hidden");
+    if (el.singleQuestionView) el.singleQuestionView.classList.remove("hidden");
+
     const isProgramming = state.roundType === "programming";
     const questions = activeQuestions();
     const total = questions.length;
     const q = questions[state.questionIndex];
 
-    if (isProgramming) {
-      timerDuration = 600; // Ensure 10-minute limit per programming question
-    }
+    timerDuration = 600; // Ensure 10-minute limit per programming question
 
-    el.qBrand.textContent = isProgramming ? "Programming Round" : "Output Prediction";
+    el.qBrand.textContent = "Programming Round";
     el.qhCounter.textContent = `Q ${state.questionIndex + 1} / ${total}`;
 
     // Difficulty badge.
@@ -342,22 +552,16 @@
 
     el.qPrompt.innerHTML = q.question;
     el.qCode.innerHTML = highlightC(q.code);
-    el.codeFilename.textContent = isProgramming ? "solution.c" : "program.c";
+    el.codeFilename.textContent = "solution.c";
 
     // Programming Round: keep the solution code hidden until "Reveal Answer" is clicked.
     el.codeCard.classList.toggle("hidden", isProgramming);
     el.codeCardHint.classList.toggle("hidden", !isProgramming);
     if (isProgramming) {
       el.codeCardHint.textContent = "Solve the question — click Reveal Answer to display the model C solution.";
-    } else {
-      el.codeCardHint.textContent = "Solve it on paper — the model answer will appear here when you click Show Answer.";
     }
 
-    // Output Prediction has a short "Correct Output" answer; Programming Round's answer IS the revealed code.
     el.answerBlock.classList.toggle("hidden", isProgramming);
-    if (!isProgramming) {
-      el.qAnswer.textContent = q.answer;
-    }
     if (q.explanation) {
       el.qExplanation.textContent = q.explanation;
       el.explainBlock.classList.remove("hidden");
@@ -371,7 +575,7 @@
     // Answer always hidden on entering a new question.
     setAnswerVisible(false);
 
-    // Timer resets on every question change.
+    // Timer resets every question for programming round
     resetTimer();
 
     // Nav button states.
@@ -439,7 +643,13 @@
   }
 
   function toggleAnswer() {
-    setAnswerVisible(!state.answerVisible);
+    if (state.roundType === "prediction") {
+      const anyVisible = p1AnswerVisible || p2AnswerVisible;
+      setP1AnswerVisible(!anyVisible);
+      setP2AnswerVisible(!anyVisible);
+    } else {
+      setAnswerVisible(!state.answerVisible);
+    }
   }
 
   el.btnToggleAnswer.addEventListener("click", toggleAnswer);
@@ -448,14 +658,24 @@
   /* NAVIGATION                                                         */
   /* ------------------------------------------------------------------ */
   function goNext() {
-    const isLast = state.questionIndex === activeQuestions().length - 1;
-
-    if (isLast) {
-      askFinishQuiz();
-      return;
+    if (state.roundType === "prediction") {
+      const totalPairs = 2;
+      const isLast = state.questionIndex === totalPairs - 1;
+      if (isLast) {
+        askFinishQuiz();
+        return;
+      }
+      state.questionIndex += 1;
+      renderQuestion();
+    } else {
+      const isLast = state.questionIndex === activeQuestions().length - 1;
+      if (isLast) {
+        askFinishQuiz();
+        return;
+      }
+      state.questionIndex += 1;
+      renderQuestion();
     }
-    state.questionIndex += 1;
-    renderQuestion();
   }
 
   function goPrev() {

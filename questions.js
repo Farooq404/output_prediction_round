@@ -21,30 +21,10 @@
  * -----------------------------------------------------------------------
  */
 
+// Round 1 (Easy pair): Q2, Q4 — positions 1–2
+// Round 2 (Medium pair): Q1, Q9 — positions 3–4
 const predictionQuestions = [
-  // ---------------------------------------------------------- ROUND 1: EASY
-  {
-    id: 1,
-    difficulty: "Easy",
-    unit: "Unit 1: Operators & Decision Making",
-    question: "Predict the exact output of the following C program.",
-    code: `#include <stdio.h>
-
-int main() {
-    int x = 5;
-    if (x = 0) {
-        printf("A");
-    } else {
-        printf("B%d", x);
-    }
-    return 0;
-}`,
-    answer: "B0",
-    explanation:
-      "Inside the if statement, x = 0 is an assignment, not a comparison (==). It assigns 0 to x. Because 0 is treated as false in C, the if block is skipped, and the else block executes, printing B followed by the new value of x, which is 0.",
-  },
-
-  // -------------------------------------------------------- ROUND 1: MEDIUM
+  // -------------------------------------------------------- ROUND 1: QUESTION 1 (id: 2)
   {
     id: 2,
     difficulty: "Medium",
@@ -66,34 +46,7 @@ int main() {
       "The loop runs from 1 to 5. When i == 3, continue skips the addition for that iteration. Therefore: 1 + 2 + 4 + 5 = 12.",
   },
 
-  // ---------------------------------------------------------- ROUND 1: HARD
-  {
-    id: 3,
-    difficulty: "Hard",
-    unit: "Unit 5: Structures and Pointers",
-    question: "Predict the exact output of the following C program.",
-    code: `#include <stdio.h>
-
-struct Point {
-    int x;
-    int y;
-};
-
-int main() {
-    struct Point arr[3] = {{1, 2}, {3, 4}, {5, 6}};
-    struct Point *ptr = arr;
-
-    ptr++;
-
-    printf("%d %d", ptr->y, (ptr+1)->x);
-    return 0;
-}`,
-    answer: "4 5",
-    explanation:
-      "ptr initially points to arr[0]. ptr++ moves it to arr[1]. ptr->y accesses the y value of arr[1], which is 4. (ptr+1)->x accesses the x value of arr[2], which is 5.",
-  },
-
-  // ---------------------------------------------------------- ROUND 2: EASY
+  // -------------------------------------------------------- ROUND 1: QUESTION 2 (id: 4)
   {
     id: 4,
     difficulty: "Easy",
@@ -113,97 +66,29 @@ int main() {
       "++a changes a to 4 and prints 4. a++ prints the current value 4 and then increments a to 5. The final printf prints 5. There are no spaces between the outputs, so the final output is 445.",
   },
 
-  // -------------------------------------------------------- ROUND 2: MEDIUM
+  // -------------------------------------------------------- ROUND 2: QUESTION 1 (id: 1)
   {
-    id: 5,
-    difficulty: "Medium",
-    unit: "Unit 4: Storage Classes",
-    question: "Predict the exact output of the following C program.",
-    code: `#include <stdio.h>
-
-void counter() {
-    static int count = 10;
-    count += 5;
-    printf("%d ", count);
-}
-
-int main() {
-    counter();
-    counter();
-    return 0;
-}`,
-    answer: "15 20",
-    explanation:
-      "The static variable count is initialized only once and retains its value between function calls. The first call changes 10 to 15. The second call changes 15 to 20.",
-  },
-
-  // ---------------------------------------------------------- ROUND 2: HARD
-  {
-    id: 6,
-    difficulty: "Hard",
-    unit: "Unit 3 & 4: Arrays and Pointer Arithmetic",
-    question: "Predict the exact output of the following C program.",
-    code: `#include <stdio.h>
-
-int main() {
-    int arr[] = {100, 200, 300, 400};
-    int *p = arr;
-
-    *(p + 2) += 50;
-
-    printf("%d ", *p++);
-    printf("%d", *++p);
-    return 0;
-}`,
-    answer: "100 350",
-    explanation:
-      "*(p + 2) modifies the third element from 300 to 350. *p++ prints 100 and then moves p to the next element. *++p moves p forward again to the third element, whose value is now 350.",
-  },
-
-  // ---------------------------------------------------------- ROUND 3: EASY
-  {
-    id: 7,
+    id: 1,
     difficulty: "Easy",
-    unit: "Unit 3: Strings Initialization and Handling",
+    unit: "Unit 1: Operators & Decision Making",
     question: "Predict the exact output of the following C program.",
     code: `#include <stdio.h>
 
 int main() {
-    char str[] = "Competition";
-    str[4] = '\\0';
-    printf("%s", str);
+    int x = 5;
+    if (x = 0) {
+        printf("A");
+    } else {
+        printf("B%d", x);
+    }
     return 0;
 }`,
-    answer: "Comp",
+    answer: "B0",
     explanation:
-      "The string originally contains \"Competition\". Index 4 is replaced with the null character '\\0'. printf(\"%s\") stops reading when it reaches the null terminator, so only \"Comp\" is printed.",
+      "Inside the if statement, x = 0 is an assignment, not a comparison (==). It assigns 0 to x. Because 0 is treated as false in C, the if block is skipped, and the else block executes, printing B followed by the new value of x, which is 0.",
   },
 
-  // -------------------------------------------------------- ROUND 3: MEDIUM
-  {
-    id: 8,
-    difficulty: "Medium",
-    unit: "Unit 4: Parameter Passing",
-    question: "Predict the exact output of the following C program.",
-    code: `#include <stdio.h>
-
-void modify(int *a, int b) {
-    *a = *a + 5;
-    b = b + 5;
-}
-
-int main() {
-    int x = 10, y = 20;
-    modify(&x, y);
-    printf("%d %d", x, y);
-    return 0;
-}`,
-    answer: "15 20",
-    explanation:
-      "x is passed by address using &x, so modifying *a changes the original x to 15. y is passed by value, so modifying b changes only the local copy. The original y remains 20.",
-  },
-
-  // ---------------------------------------------------------- ROUND 3: HARD
+  // -------------------------------------------------------- ROUND 2: QUESTION 2 (id: 9)
   {
     id: 9,
     difficulty: "Hard",

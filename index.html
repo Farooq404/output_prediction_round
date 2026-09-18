@@ -77,7 +77,7 @@
       <div class="round-picker">
         <div class="round-card">
           <p class="round-card-title">Output Prediction</p>
-          <p class="round-card-stat">9 questions · Easy → Medium → Hard</p>
+          <p class="round-card-stat">4 questions · Easy &amp; Medium pairs</p>
           <button id="btn-start-prediction" class="btn btn-primary" data-round="prediction">Start Output Prediction</button>
         </div>
         <div class="round-card">
@@ -123,39 +123,113 @@
       </div>
     </header>
 
-    <main class="q-body">
+    <main class="q-body" id="q-body">
       <nav class="q-nav-bar" id="q-nav-bar" aria-label="Question Navigation"></nav>
 
-      <div class="q-meta-row">
-        <span class="badge" id="q-difficulty">Easy</span>
-        <span class="q-unit" id="q-unit">Unit 1 • Operators &amp; Decision Making</span>
-      </div>
-
-      <p class="q-prompt" id="q-prompt">Predict the exact output of the following C program.</p>
-
-      <div class="code-card" id="code-card">
-        <div class="code-card-bar">
-          <span class="code-dot" style="--c:#EC6A5E"></span>
-          <span class="code-dot" style="--c:#F4BF4F"></span>
-          <span class="code-dot" style="--c:#61C554"></span>
-          <span class="code-filename" id="code-filename">program.c</span>
+      <!-- Single Question View (Programming Round) -->
+      <div id="single-question-view">
+        <div class="q-meta-row">
+          <span class="badge" id="q-difficulty">Easy</span>
+          <span class="q-unit" id="q-unit">Unit 1 • Operators &amp; Decision Making</span>
         </div>
-        <pre class="code-scroll"><code id="q-code"></code></pre>
+
+        <p class="q-prompt" id="q-prompt">Predict the exact output of the following C program.</p>
+
+        <div class="code-card" id="code-card">
+          <div class="code-card-bar">
+            <span class="code-dot" style="--c:#EC6A5E"></span>
+            <span class="code-dot" style="--c:#F4BF4F"></span>
+            <span class="code-dot" style="--c:#61C554"></span>
+            <span class="code-filename" id="code-filename">program.c</span>
+          </div>
+          <pre class="code-scroll"><code id="q-code"></code></pre>
+        </div>
+
+        <p class="code-card-hint hidden" id="code-card-hint">Solve it on paper — the model answer will appear here when you click Show Answer.</p>
+
+        <div class="answer-zone">
+          <button id="btn-toggle-answer" class="btn btn-outline">Show Answer</button>
+
+          <div id="answer-panel" class="answer-panel hidden">
+            <div class="answer-block" id="answer-block">
+              <span class="answer-label">Correct Output</span>
+              <pre class="answer-output" id="q-answer"></pre>
+            </div>
+            <div class="explain-block" id="explain-block">
+              <span class="explain-label">Explanation</span>
+              <p class="explain-text" id="q-explanation"></p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <p class="code-card-hint hidden" id="code-card-hint">Solve it on paper — the model answer will appear here when you click Show Answer.</p>
-
-      <div class="answer-zone">
-        <button id="btn-toggle-answer" class="btn btn-outline">Show Answer</button>
-
-        <div id="answer-panel" class="answer-panel hidden">
-          <div class="answer-block" id="answer-block">
-            <span class="answer-label">Correct Output</span>
-            <pre class="answer-output" id="q-answer"></pre>
+      <!-- Paired Question View (Output Prediction Round: Q1+Q2 pair and Q3+Q4 pair) -->
+      <div id="pair-question-view" class="pair-grid hidden">
+        <!-- Card 1 of pair -->
+        <div class="pair-card" id="pair-card-1">
+          <div class="pair-card-header">
+            <div class="q-meta-row">
+              <span class="badge" id="p1-difficulty">Easy</span>
+              <span class="q-unit" id="p1-unit">Unit</span>
+            </div>
+            <span class="q-number-pill" id="p1-number">Question 1</span>
           </div>
-          <div class="explain-block" id="explain-block">
-            <span class="explain-label">Explanation</span>
-            <p class="explain-text" id="q-explanation"></p>
+          <p class="q-prompt" id="p1-prompt">Predict the exact output of the following C program.</p>
+          <div class="code-card">
+            <div class="code-card-bar">
+              <span class="code-dot" style="--c:#EC6A5E"></span>
+              <span class="code-dot" style="--c:#F4BF4F"></span>
+              <span class="code-dot" style="--c:#61C554"></span>
+              <span class="code-filename" id="p1-filename">program_1.c</span>
+            </div>
+            <pre class="code-scroll"><code id="p1-code"></code></pre>
+          </div>
+          <div class="answer-zone">
+            <button id="p1-btn-answer" class="btn btn-outline">Show Answer</button>
+            <div id="p1-answer-panel" class="answer-panel hidden">
+              <div class="answer-block">
+                <span class="answer-label">Correct Output</span>
+                <pre class="answer-output" id="p1-answer"></pre>
+              </div>
+              <div class="explain-block" id="p1-explain-block">
+                <span class="explain-label">Explanation</span>
+                <p class="explain-text" id="p1-explanation"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 of pair -->
+        <div class="pair-card" id="pair-card-2">
+          <div class="pair-card-header">
+            <div class="q-meta-row">
+              <span class="badge" id="p2-difficulty">Easy</span>
+              <span class="q-unit" id="p2-unit">Unit</span>
+            </div>
+            <span class="q-number-pill" id="p2-number">Question 2</span>
+          </div>
+          <p class="q-prompt" id="p2-prompt">Predict the exact output of the following C program.</p>
+          <div class="code-card">
+            <div class="code-card-bar">
+              <span class="code-dot" style="--c:#EC6A5E"></span>
+              <span class="code-dot" style="--c:#F4BF4F"></span>
+              <span class="code-dot" style="--c:#61C554"></span>
+              <span class="code-filename" id="p2-filename">program_2.c</span>
+            </div>
+            <pre class="code-scroll"><code id="p2-code"></code></pre>
+          </div>
+          <div class="answer-zone">
+            <button id="p2-btn-answer" class="btn btn-outline">Show Answer</button>
+            <div id="p2-answer-panel" class="answer-panel hidden">
+              <div class="answer-block">
+                <span class="answer-label">Correct Output</span>
+                <pre class="answer-output" id="p2-answer"></pre>
+              </div>
+              <div class="explain-block" id="p2-explain-block">
+                <span class="explain-label">Explanation</span>
+                <p class="explain-text" id="p2-explanation"></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

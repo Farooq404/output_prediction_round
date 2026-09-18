@@ -155,7 +155,7 @@
       if (el.inputTimerSec) el.inputTimerSec.disabled = true;
       el.rulesModalTitle.textContent = "Output Prediction Scoring System";
       el.rulesModalBody.innerHTML = `
-        <p class="scoring-sub"><strong>Round 1 — Easy Pair (Q2, Q4)</strong> &bull; Max 7:00 total</p>
+        <p class="scoring-sub"><strong>Round 1 — Medium Pair (Q1, Q2)</strong> &bull; Max 7:00 total</p>
         <div class="scoring-table">
           <div class="scoring-row scoring-head">
             <span>Condition</span>
@@ -190,7 +190,7 @@
           </div>
         </div>
 
-        <p class="scoring-sub" style="margin-top: 1.25rem;"><strong>Round 2 — Medium Pair (Q1, Q9)</strong> &bull; Max 7:00 total</p>
+        <p class="scoring-sub" style="margin-top: 1.25rem;"><strong>Round 2 — Hard Pair (Q3, Q4)</strong> &bull; Max 7:00 total</p>
         <div class="scoring-table">
           <div class="scoring-row scoring-head">
             <span>Condition</span>

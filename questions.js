@@ -21,8 +21,8 @@
  * -----------------------------------------------------------------------
  */
 
-// Round 1 (Easy pair): Q2, Q4 — positions 1–2
-// Round 2 (Medium pair): Q1, Q9 — positions 3–4
+// Round 1 (Medium pair): Q2, Q4 — positions 1–2
+// Round 2 (Hard pair): Q1, Q9 — positions 3–4
 const predictionQuestions = [
   // -------------------------------------------------------- ROUND 1: QUESTION 1 (id: 2)
   {
@@ -49,7 +49,7 @@ int main() {
   // -------------------------------------------------------- ROUND 1: QUESTION 2 (id: 4)
   {
     id: 4,
-    difficulty: "Easy",
+    difficulty: "Medium",
     unit: "Unit 1: Unary Operators",
     question: "Predict the exact output of the following C program.",
     code: `#include <stdio.h>
@@ -69,7 +69,7 @@ int main() {
   // -------------------------------------------------------- ROUND 2: QUESTION 1 (id: 1)
   {
     id: 1,
-    difficulty: "Easy",
+    difficulty: "Hard",
     unit: "Unit 1: Operators & Decision Making",
     question: "Predict the exact output of the following C program.",
     code: `#include <stdio.h>

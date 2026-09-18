@@ -126,237 +126,7 @@ int main() {
  * -----------------------------------------------------------------------
  */
 const programmingQuestions = [
-  {
-    id: 1,
-    title: "Find the Maximum and Minimum in an Array",
-    difficulty: "Very Easy",
-    timeLimit: "10 Minutes",
-    question: `<div class="q-prob-statement">
-  <strong>Problem Statement</strong>
-  <p>Write a C program that takes an array of integers and finds both the maximum and minimum values in the array.</p>
-</div>
-
-<div class="q-section">
-  <p class="q-section-title">Edge Cases</p>
-  <ul>
-    <li>Single element array: <code>[5]</code> — maximum and minimum should both be 5.</li>
-    <li>All identical elements: <code>[3, 3, 3, 3]</code>.</li>
-    <li>Negative numbers: <code>[-5, -1, -10, -3]</code>.</li>
-  </ul>
-</div>
-
-<div class="q-section">
-  <p class="q-section-title">Test Cases</p>
-  <div class="test-cases-grid">
-    <div class="test-case-item">
-      <strong>Test Case 1</strong>
-      <div class="tc-block"><span>Input:</span><pre>5
-10 5 8 2 15</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 15
-Minimum: 2</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 2</strong>
-      <div class="tc-block"><span>Input:</span><pre>1
-5</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 5
-Minimum: 5</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 3</strong>
-      <div class="tc-block"><span>Input:</span><pre>4
-3 3 3 3</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 3
-Minimum: 3</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 4</strong>
-      <div class="tc-block"><span>Input:</span><pre>4
--5 -1 -10 -3</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: -1
-Minimum: -10</pre></div>
-    </div>
-  </div>
-</div>`,
-    code: `#include <stdio.h>
-
-int main() {
-    int n, i;
-    int arr[100];
-
-    printf("Enter number of elements: ");
-    if (scanf("%d", &n) != 1 || n <= 0) return 0;
-
-    printf("Enter elements: ");
-    for (i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-    }
-
-    int max = arr[0];
-    int min = arr[0];
-
-    for (i = 1; i < n; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
-        }
-        if (arr[i] < min) {
-            min = arr[i];
-        }
-    }
-
-    printf("Maximum: %d\\n", max);
-    printf("Minimum: %d\\n", min);
-
-    return 0;
-}`,
-  },
-
-  {
-    id: 2,
-    title: "Count Even and Odd Numbers",
-    difficulty: "Easy",
-    timeLimit: "10 Minutes",
-    question: `<div class="q-prob-statement">
-  <strong>Problem Statement</strong>
-  <p>Write a C program to count how many even and odd numbers are present in a given array of integers.</p>
-</div>
-
-<div class="q-section">
-  <p class="q-section-title">Edge Cases</p>
-  <ul>
-    <li>All numbers are even.</li>
-    <li>All numbers are odd.</li>
-    <li>0 should be counted as even.</li>
-    <li>Negative numbers such as -3 and -4.</li>
-  </ul>
-</div>
-
-<div class="q-section">
-  <p class="q-section-title">Test Cases</p>
-  <div class="test-cases-grid">
-    <div class="test-case-item">
-      <strong>Test Case 1</strong>
-      <div class="tc-block"><span>Input:</span><pre>5
-1 2 3 4 5</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 2
-Odd numbers count: 3</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 2</strong>
-      <div class="tc-block"><span>Input:</span><pre>4
-2 4 6 8</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 4
-Odd numbers count: 0</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 3</strong>
-      <div class="tc-block"><span>Input:</span><pre>4
-1 3 5 7</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 0
-Odd numbers count: 4</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 4</strong>
-      <div class="tc-block"><span>Input:</span><pre>4
-0 -3 -4 7</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 2
-Odd numbers count: 2</pre></div>
-    </div>
-  </div>
-</div>`,
-    code: `#include <stdio.h>
-
-int main() {
-    int n, i;
-    int arr[100];
-    int evenCount = 0, oddCount = 0;
-
-    printf("Enter number of elements: ");
-    if (scanf("%d", &n) != 1 || n <= 0) return 0;
-
-    printf("Enter elements: ");
-    for (i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-
-        if (arr[i] % 2 == 0) {
-            evenCount++;
-        } else {
-            oddCount++;
-        }
-    }
-
-    printf("Even numbers count: %d\\n", evenCount);
-    printf("Odd numbers count: %d\\n", oddCount);
-
-    return 0;
-}`,
-  },
-
-  {
-    id: 3,
-    title: "Factorial Calculation",
-    difficulty: "Easy",
-    timeLimit: "10 Minutes",
-    question: `<div class="q-prob-statement">
-  <strong>Problem Statement</strong>
-  <p>Write a C program to calculate the factorial of a given non-negative integer N.</p>
-  <p><em>Remember: 0! = 1</em></p>
-</div>
-
-<div class="q-section">
-  <p class="q-section-title">Edge Cases</p>
-  <ul>
-    <li>Input 0 should produce 1.</li>
-    <li>Input 1 should produce 1.</li>
-    <li>Small values such as 2 and 5.</li>
-    <li>Use an appropriate integer type to reduce overflow issues.</li>
-  </ul>
-</div>
-
-<div class="q-section">
-  <p class="q-section-title">Test Cases</p>
-  <div class="test-cases-grid">
-    <div class="test-case-item">
-      <strong>Test Case 1</strong>
-      <div class="tc-block"><span>Input:</span><pre>5</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 5 = 120</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 2</strong>
-      <div class="tc-block"><span>Input:</span><pre>0</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 0 = 1</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 3</strong>
-      <div class="tc-block"><span>Input:</span><pre>1</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 1 = 1</pre></div>
-    </div>
-    <div class="test-case-item">
-      <strong>Test Case 4</strong>
-      <div class="tc-block"><span>Input:</span><pre>10</pre></div>
-      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 10 = 3628800</pre></div>
-    </div>
-  </div>
-</div>`,
-    code: `#include <stdio.h>
-
-int main() {
-    int n, i;
-    unsigned long long factorial = 1;
-
-    printf("Enter a non-negative integer: ");
-    if (scanf("%d", &n) != 1 || n < 0) return 0;
-
-    for (i = 1; i <= n; i++) {
-        factorial *= i;
-    }
-
-    printf("Factorial of %d = %llu\\n", n, factorial);
-
-    return 0;
-}`,
-  },
-
+  // -------------------------------------------------------- MAIN QUESTION 1 (id: 4)
   {
     id: 4,
     title: "Linear Search for a Key",
@@ -446,6 +216,240 @@ int main() {
     if (!found) {
         printf("Element not found in the array.\\n");
     }
+
+    return 0;
+}`,
+  },
+
+  // -------------------------------------------------------- MAIN QUESTION 2 (id: 2)
+  {
+    id: 2,
+    title: "Count Even and Odd Numbers",
+    difficulty: "Easy",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program to count how many even and odd numbers are present in a given array of integers.</p>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>All numbers are even.</li>
+    <li>All numbers are odd.</li>
+    <li>0 should be counted as even.</li>
+    <li>Negative numbers such as -3 and -4.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5
+1 2 3 4 5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 2
+Odd numbers count: 3</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+2 4 6 8</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 4
+Odd numbers count: 0</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+1 3 5 7</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 0
+Odd numbers count: 4</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+0 -3 -4 7</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Even numbers count: 2
+Odd numbers count: 2</pre></div>
+    </div>
+  </div>
+</div>`,
+    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    int arr[100];
+    int evenCount = 0, oddCount = 0;
+
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) return 0;
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+
+        if (arr[i] % 2 == 0) {
+            evenCount++;
+        } else {
+            oddCount++;
+        }
+    }
+
+    printf("Even numbers count: %d\\n", evenCount);
+    printf("Odd numbers count: %d\\n", oddCount);
+
+    return 0;
+}`,
+  },
+
+  // -------------------------------------------------------- BACKUP QUESTION 1 (id: 1)
+  {
+    id: 1,
+    title: "Find the Maximum and Minimum in an Array",
+    difficulty: "Very Easy",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program that takes an array of integers and finds both the maximum and minimum values in the array.</p>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>Single element array: <code>[5]</code> — maximum and minimum should both be 5.</li>
+    <li>All identical elements: <code>[3, 3, 3, 3]</code>.</li>
+    <li>Negative numbers: <code>[-5, -1, -10, -3]</code>.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5
+10 5 8 2 15</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 15
+Minimum: 2</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>1
+5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 5
+Minimum: 5</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+3 3 3 3</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: 3
+Minimum: 3</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>4
+-5 -1 -10 -3</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Maximum: -1
+Minimum: -10</pre></div>
+    </div>
+  </div>
+</div>`,
+    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    int arr[100];
+
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) return 0;
+
+    printf("Enter elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int max = arr[0];
+    int min = arr[0];
+
+    for (i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+    }
+
+    printf("Maximum: %d\\n", max);
+    printf("Minimum: %d\\n", min);
+
+    return 0;
+}`,
+  },
+
+  // -------------------------------------------------------- BACKUP QUESTION 2 (id: 3)
+  {
+    id: 3,
+    title: "Factorial Calculation",
+    difficulty: "Easy",
+    timeLimit: "10 Minutes",
+    question: `<div class="q-prob-statement">
+  <strong>Problem Statement</strong>
+  <p>Write a C program to calculate the factorial of a given non-negative integer N.</p>
+  <p><em>Remember: 0! = 1</em></p>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Edge Cases</p>
+  <ul>
+    <li>Input 0 should produce 1.</li>
+    <li>Input 1 should produce 1.</li>
+    <li>Small values such as 2 and 5.</li>
+    <li>Use an appropriate integer type to reduce overflow issues.</li>
+  </ul>
+</div>
+
+<div class="q-section">
+  <p class="q-section-title">Test Cases</p>
+  <div class="test-cases-grid">
+    <div class="test-case-item">
+      <strong>Test Case 1</strong>
+      <div class="tc-block"><span>Input:</span><pre>5</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 5 = 120</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 2</strong>
+      <div class="tc-block"><span>Input:</span><pre>0</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 0 = 1</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 3</strong>
+      <div class="tc-block"><span>Input:</span><pre>1</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 1 = 1</pre></div>
+    </div>
+    <div class="test-case-item">
+      <strong>Test Case 4</strong>
+      <div class="tc-block"><span>Input:</span><pre>10</pre></div>
+      <div class="tc-block"><span>Expected Output:</span><pre>Factorial of 10 = 3628800</pre></div>
+    </div>
+  </div>
+</div>`,
+    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    unsigned long long factorial = 1;
+
+    printf("Enter a non-negative integer: ");
+    if (scanf("%d", &n) != 1 || n < 0) return 0;
+
+    for (i = 1; i <= n; i++) {
+        factorial *= i;
+    }
+
+    printf("Factorial of %d = %llu\\n", n, factorial);
 
     return 0;
 }`,

@@ -230,7 +230,7 @@
       if (el.inputTimerSec) el.inputTimerSec.disabled = false;
       el.rulesModalTitle.textContent = "Programming Round Scoring System";
       el.rulesModalBody.innerHTML = `
-        <p class="scoring-sub">Maximum score for each programming question is 10 points.</p>
+        <p class="scoring-sub">Maximum score for each programming question is 10 points. Time limit: 10 minutes per question.</p>
         <div class="scoring-table">
           <div class="scoring-row scoring-head">
             <span>Category &amp; Criteria</span>
@@ -238,22 +238,22 @@
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Correctness and Test Case Passing</strong>
-              <span>Logic correctly solves standard inputs: 3 points<br>Correctly handles edge cases: 2 points</span>
+              <strong>All Test Cases Passed</strong>
+              <span>All standard and edge test cases correctly pass.</span>
             </div>
             <span class="scoring-points">5 points</span>
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Time Management</strong>
-              <span>Finished within 0–5 minutes: 3 points<br>Finished within 5–8 minutes: 2 points<br>Finished within 8–10 minutes: 1 point</span>
+              <strong>Code Quality &amp; Readability</strong>
+              <span>Syntax, clean structure, formatting, and indentation.</span>
             </div>
             <span class="scoring-points">3 points</span>
           </div>
           <div class="scoring-row">
             <div class="scoring-condition">
-              <strong>Code Quality and Readability</strong>
-              <span>Good variable/naming conventions: 1 point<br>Clean structure, indentation, and formatting: 1 point</span>
+              <strong>First Showing Team Bonus</strong>
+              <span>First team to present a complete solution (awarded only if all test cases pass).</span>
             </div>
             <span class="scoring-points">2 points</span>
           </div>
@@ -271,6 +271,88 @@
   el.btnStartProgramming.addEventListener("click", () => openRulesModal("programming"));
   if (el.btnStartAiSprint) el.btnStartAiSprint.addEventListener("click", () => startRound("aisprint"));
   if (el.btnAiSprintBack) el.btnAiSprintBack.addEventListener("click", goHome);
+
+  /* ------------------------------------------------------------------ */
+  /* AI SPRINT — REVEAL TIMER (7 min, independent of main clock)        */
+  /* ------------------------------------------------------------------ */
+  (function () {
+    const REVEAL_DURATION = 270; // 4:30
+    let revealRemaining = REVEAL_DURATION;
+    let revealRunning = false;
+    let revealIntervalId = null;
+
+    const revealDisplay = document.getElementById("sprint-reveal-timer");
+    const btnStart = document.getElementById("btn-reveal-timer-start");
+    const btnReset = document.getElementById("btn-reveal-timer-reset");
+    const funcSection = document.getElementById("sprint-functionalities-section");
+    const btnExpand = document.getElementById("btn-func-expand");
+
+    function formatRevealTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      return String(m).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
+    }
+
+    function renderReveal() {
+      if (!revealDisplay) return;
+      const done = revealRemaining <= 0;
+      revealDisplay.textContent = done ? "Time's Up" : formatRevealTime(revealRemaining);
+      revealDisplay.classList.toggle("low", revealRemaining <= 60 && !done);
+      if (btnStart) {
+        btnStart.textContent = revealRunning ? "Pause" : "Start";
+        btnStart.disabled = done;
+      }
+    }
+
+    function pauseReveal() {
+      revealRunning = false;
+      if (revealIntervalId) {
+        clearInterval(revealIntervalId);
+        revealIntervalId = null;
+      }
+      renderReveal();
+    }
+
+    function startReveal() {
+      if (revealRunning || revealRemaining <= 0) return;
+      revealRunning = true;
+      revealIntervalId = setInterval(() => {
+        if (revealRemaining > 0) {
+          revealRemaining -= 1;
+          renderReveal();
+        }
+        if (revealRemaining <= 0) {
+          pauseReveal();
+        }
+      }, 1000);
+      renderReveal();
+    }
+
+    function toggleReveal() {
+      if (revealRunning) pauseReveal();
+      else startReveal();
+    }
+
+    function resetReveal() {
+      pauseReveal();
+      revealRemaining = REVEAL_DURATION;
+      renderReveal();
+    }
+
+    if (btnStart) btnStart.addEventListener("click", toggleReveal);
+    if (btnReset) btnReset.addEventListener("click", resetReveal);
+
+    // Expand / Collapse toggle for the functionality section
+    if (btnExpand && funcSection) {
+      btnExpand.addEventListener("click", () => {
+        const expanded = funcSection.classList.toggle("is-expanded");
+        btnExpand.textContent = expanded ? "✕ Collapse" : "⛶ Expand Display";
+      });
+    }
+
+    renderReveal(); // seed initial display
+  })();
+
   if (el.rulesModalCloseX) el.rulesModalCloseX.addEventListener("click", closeRulesModal);
   if (el.rulesModalClose) el.rulesModalClose.addEventListener("click", closeRulesModal);
   if (el.rulesModalStart) {
@@ -821,11 +903,12 @@
   }
 
   function applyTimerDurationToInputs() {
-    el.inputTimerMin.value = Math.floor(timerDuration / 60);
-    el.inputTimerSec.value = timerDuration % 60;
+    if (el.inputTimerMin) el.inputTimerMin.value = Math.floor(timerDuration / 60);
+    if (el.inputTimerSec) el.inputTimerSec.value = timerDuration % 60;
   }
 
   function setTimerDurationFromInputs() {
+    if (!el.inputTimerMin || !el.inputTimerSec) return;
     const min = parseInt(el.inputTimerMin.value, 10) || 0;
     const sec = parseInt(el.inputTimerSec.value, 10) || 0;
     timerDuration = clampTimerDuration(min * 60 + sec);
@@ -845,8 +928,8 @@
     } catch (e) {}
   }
 
-  el.inputTimerMin.addEventListener("change", setTimerDurationFromInputs);
-  el.inputTimerSec.addEventListener("change", setTimerDurationFromInputs);
+  if (el.inputTimerMin) el.inputTimerMin.addEventListener("change", setTimerDurationFromInputs);
+  if (el.inputTimerSec) el.inputTimerSec.addEventListener("change", setTimerDurationFromInputs);
 
   /* ------------------------------------------------------------------ */
   /* NIGHT MODE TOGGLE                                                  */

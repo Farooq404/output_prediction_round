@@ -92,15 +92,6 @@
         </div>
       </div>
 
-      <div class="timer-setup">
-        <span class="timer-setup-label">Timer per question</span>
-        <div class="timer-setup-inputs">
-          <input type="number" id="input-timer-min" class="timer-setup-input" min="0" max="20" value="2" inputmode="numeric" aria-label="Minutes" />
-          <span class="timer-setup-colon">:</span>
-          <input type="number" id="input-timer-sec" class="timer-setup-input" min="0" max="59" value="0" inputmode="numeric" aria-label="Seconds" />
-        </div>
-      </div>
-
       <p class="fine-note">Scores are evaluated and recorded manually by the scorer.</p>
     </div>
   </section>
@@ -269,7 +260,7 @@
     </header>
 
     <main class="sprint-body">
-      <!-- Section 1: Hero & Marks Breakdown (Slide 1) -->
+      <!-- Section 1: Hero & Marks Breakdown -->
       <div class="sprint-hero-card">
         <div class="sprint-hero-header">
           <p class="sprint-eyebrow">WEBSITE CREATION ROUND</p>
@@ -288,6 +279,8 @@
             <p>Choose strategically, build fast, make every selected feature work, polish the UI, and be ready to explain your implementation.</p>
           </div>
         </div>
+
+
 
         <div class="marks-breakdown">
           <div class="mark-card">
@@ -313,171 +306,7 @@
         </div>
       </div>
 
-      <!-- Section 2: Functionality Menu (Slide 2 & 3) -->
-      <div class="sprint-section">
-        <div class="sprint-section-header">
-          <span class="ppt-badge">CHOOSE UP TO 4</span>
-          <h2 class="sprint-section-title">Functionality Menu</h2>
-        </div>
-        <p class="sprint-section-intro">
-          Choose any 1–4 functionalities from the 7 options below. All selected functionalities must exist on the same single webpage. Each selected functionality is worth 5 marks — earned only when its mandatory components are present and the functionality actually works during evaluation. Static mockups, screenshots, decorative buttons, hard-coded results, or non-working interactions do not count.
-        </p>
-
-        <div class="func-grid">
-          <!-- Card 1 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">1</span>
-              <h3 class="func-title">Calculator</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Real arithmetic calculator.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Numbers 0–9</span>
-                <span class="chip">Operators +, −, ×, ÷</span>
-                <span class="chip">Input/result display</span>
-                <span class="chip">Clear/reset</span>
-                <span class="chip">Working calculations</span>
-                <span class="chip">Correct result output</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">2</span>
-              <h3 class="func-title">To-Do List</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Add and manage tasks.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Task input</span>
-                <span class="chip">Add control</span>
-                <span class="chip">Visible task list</span>
-                <span class="chip">Mark Done/Complete</span>
-                <span class="chip">Delete task</span>
-                <span class="chip">List updates after actions</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">3</span>
-              <h3 class="func-title">Snake Game</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Playable grid-based Snake game.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Snake movement</span>
-                <span class="chip">Random food</span>
-                <span class="chip">Score</span>
-                <span class="chip">Wall collision</span>
-                <span class="chip">Self collision</span>
-                <span class="chip">Game Over</span>
-                <span class="chip">Restart</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">4</span>
-              <h3 class="func-title">Aim Reaction Game</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Timed target-clicking reaction challenge.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Random target</span>
-                <span class="chip">Clickable target</span>
-                <span class="chip">Reaction-time measurement</span>
-                <span class="chip">Score/result</span>
-                <span class="chip">Timer/game duration</span>
-                <span class="chip">Restart</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">5</span>
-              <h3 class="func-title">Ping Pong Game</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Playable Pong-style game.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Player paddle control</span>
-                <span class="chip">Ball movement</span>
-                <span class="chip">Ball collision/bounce</span>
-                <span class="chip">Opponent/second paddle</span>
-                <span class="chip">Score</span>
-                <span class="chip">Win/Game Over</span>
-                <span class="chip">Restart</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">6</span>
-              <h3 class="func-title">Dinosaur Runner Game</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Endless runner where the dinosaur avoids obstacles.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Dinosaur character</span>
-                <span class="chip">Obstacle generation</span>
-                <span class="chip">Jump control</span>
-                <span class="chip">Collision detection</span>
-                <span class="chip">Score</span>
-                <span class="chip">Game Over</span>
-                <span class="chip">Restart</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 7 -->
-          <div class="func-card">
-            <div class="func-header">
-              <span class="func-badge-num">7</span>
-              <h3 class="func-title">Flappy Bird / Bird Flapping Game</h3>
-              <span class="func-marks-badge">5 marks</span>
-            </div>
-            <p class="func-desc">What it should do: Side-scrolling bird game.</p>
-            <div class="func-mandatory">
-              <span class="func-mand-title">MANDATORY COMPONENTS</span>
-              <div class="chips-wrap">
-                <span class="chip">Bird flap/control</span>
-                <span class="chip">Gravity/falling movement</span>
-                <span class="chip">Obstacle generation</span>
-                <span class="chip">Collision detection</span>
-                <span class="chip">Score for passing obstacles</span>
-                <span class="chip">Game Over</span>
-                <span class="chip">Restart</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 3: Rules & Regulations (Slide 4) -->
+      <!-- Section 2: Rules & Regulations -->
       <div class="sprint-section">
         <div class="sprint-section-header">
           <span class="ppt-badge">READ CAREFULLY</span>
@@ -491,44 +320,48 @@
           </div>
           <div class="rule-item">
             <span class="rule-num">2</span>
-            <div class="rule-text"><strong>Maximum 4 Functionalities</strong> — You may implement a maximum of 4 of the 7 listed functionalities.</div>
+            <div class="rule-text"><strong>Functionality Reveal Window</strong> — Functionalities are shown in two phases before the build starts: the first 4 functionalities for 4 minutes, then the remaining 3 (with mandatory components) for 3 minutes — see Functionality Reveal Schedule below. This time is for noting details only and is separate from the 10-minute build.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">3</span>
-            <div class="rule-text"><strong>Single Webpage</strong> — All selected functionalities must be available on one webpage.</div>
+            <div class="rule-text"><strong>Maximum 4 Functionalities</strong> — You may implement a maximum of 4 of the 7 listed functionalities.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">4</span>
-            <div class="rule-text"><strong>Working Functionality</strong> — A visual mockup, static button, screenshot, placeholder, or fake output does not count as a working feature.</div>
+            <div class="rule-text"><strong>Single Webpage</strong> — All selected functionalities must be available on one webpage.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">5</span>
-            <div class="rule-text"><strong>Mandatory Components</strong> — Each selected functionality has fixed mandatory components. Missing or non-working core components can reduce or forfeit its 5 marks.</div>
+            <div class="rule-text"><strong>Working Functionality</strong> — A visual mockup, static button, screenshot, placeholder, or fake output does not count as a working feature.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">6</span>
-            <div class="rule-text"><strong>AI Tools Allowed</strong> — AI coding assistants and other AI tools are allowed. Participants remain responsible for understanding their submitted work.</div>
+            <div class="rule-text"><strong>Mandatory Components</strong> — Each selected functionality has fixed mandatory components. <strong>If exactly one mandatory component is missing or not working, 2 marks will be deducted from that functionality's score. If more than one mandatory component is missing or not working, that functionality scores zero marks.</strong></div>
           </div>
           <div class="rule-item">
             <span class="rule-num">7</span>
-            <div class="rule-text"><strong>One Surprise Technical Question</strong> — Only one surprise technical question will be asked. It can be about any one functionality you selected and is worth 5 marks only.</div>
+            <div class="rule-text"><strong>AI Tools Allowed</strong> — AI tools such as ChatGPT, Perplexity, and Gemini are allowed. Participants remain responsible for understanding their submitted work.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">8</span>
-            <div class="rule-text"><strong>Technical Understanding</strong> — Your answer should show understanding of the relevant implementation logic, such as events, state, calculations, movement, collision detection, timers, or other feature-specific logic.</div>
+            <div class="rule-text"><strong>One Surprise Technical Question</strong> — Only one surprise technical question will be asked. It will be drawn from the sample questions below (or a similar variant) for one of the functionalities you selected, and is worth 5 marks only.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">9</span>
-            <div class="rule-text"><strong>UI / UX</strong> — The complete website receives a separate 5-mark UI/UX score.</div>
+            <div class="rule-text"><strong>Technical Understanding</strong> — Your answer should show understanding of the relevant implementation logic, such as events, state, calculations, movement, collision detection, timers, or other feature-specific logic.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">10</span>
+            <div class="rule-text"><strong>UI / UX</strong> — The complete website receives a separate 5-mark UI/UX score.</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">11</span>
             <div class="rule-text"><strong>End of Build</strong> — After the 10-minute build period, do not continue developing unless organizers explicitly permit it.</div>
           </div>
         </div>
       </div>
 
-      <!-- Section 4 & 5: UI / UX & Final Check (Slide 5) -->
+      <!-- Section 3: UI / UX & Final Check -->
       <div class="sprint-section">
         <div class="sprint-section-header">
           <span class="ppt-badge">5 MARKS</span>
@@ -568,7 +401,7 @@
           <div class="final-check-grid">
             <span><i class="check-icon">✓</i> Up to 4 features</span>
             <span><i class="check-icon">✓</i> One webpage</span>
-            <span><i class="check-icon">✓</i> Mandatory components present</span>
+            <span><i class="check-icon">✓</i> Mandatory components present (1 missed = −2 marks; 2+ missed = 0 marks for that functionality)</span>
             <span><i class="check-icon">✓</i> Features work</span>
             <span><i class="check-icon">✓</i> UI polished</span>
             <span><i class="check-icon">✓</i> Ready for one technical question</span>
@@ -576,7 +409,213 @@
         </div>
 
         <div class="dashed-tagline-wrap">
-          <p class="dashed-tagline">CHOOSE WISELY · BUILD QUICKLY · MAKE IT WORK · MAKE IT LOOK GOOD · EXPLAIN WHAT YOU BUILT</p>
+          <p class="dashed-tagline">CHOOSE WISELY · BUILD QUICKLY · MAKE IT WORK · MAKE IT LOOK GOOD</p>
+        </div>
+      </div>
+
+      <!-- Section 4: Functionality Menu (shown last, with reveal timer) -->
+      <div class="sprint-section" id="sprint-functionalities-section">
+        <!-- Sticky header + timer bar -->
+        <div class="func-sticky-bar">
+          <div class="sprint-section-header">
+            <span class="ppt-badge">CHOOSE UP TO 4</span>
+            <h2 class="sprint-section-title">Functionality Menu</h2>
+            <button id="btn-func-expand" class="btn btn-outline btn-sm" style="margin-left:auto;">⛶ Expand Display</button>
+          </div>
+
+          <!-- Reveal Timer Bar -->
+          <div class="reveal-action-bar">
+            <div class="sprint-timer-bar">
+              <span class="sprint-timer-label">Reveal Timer</span>
+              <span class="sprint-timer-val" id="sprint-reveal-timer">04:30</span>
+            </div>
+            <button id="btn-reveal-timer-start" class="btn btn-primary btn-sm">Start</button>
+            <button id="btn-reveal-timer-reset" class="btn btn-outline btn-sm">Reset</button>
+          </div>
+        </div>
+
+
+        <p class="sprint-section-intro">
+          Choose any 1–4 functionalities from the 7 options below. All selected functionalities must exist on the same single webpage. Each selected functionality is worth 5 marks — earned only when its mandatory components are present and the functionality actually works during evaluation. Static mockups, screenshots, decorative buttons, hard-coded results, or non-working interactions do not count.
+        </p>
+
+        <!-- Penalty Rule Callout Box -->
+        <div class="penalty-callout-box">
+          ⚠️ <strong>Penalty Rule:</strong> If exactly ONE mandatory component of a selected functionality is missing or non-functional, <strong>2 marks will be deducted</strong> from that functionality's 5-mark score (i.e., it scores a maximum of 3/5). If <strong>MORE THAN ONE</strong> mandatory component is missing or non-functional, that functionality scores <strong>ZERO marks</strong>.
+        </div>
+
+        <div class="func-grid">
+          <!-- Card 1 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">1</span>
+              <h3 class="func-title">Calculator</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Real arithmetic calculator.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Numbers 0–9</span>
+                <span class="chip">Operators +, −, ×, ÷</span>
+                <span class="chip">Input/result display</span>
+                <span class="chip">Clear/reset</span>
+                <span class="chip">Working calculations</span>
+                <span class="chip">Correct result output</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> How does your Clear/reset button work in the code?
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">2</span>
+              <h3 class="func-title">To-Do List</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Add and manage tasks.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Task input</span>
+                <span class="chip">Add control</span>
+                <span class="chip">Visible task list</span>
+                <span class="chip">Mark Done/Complete</span>
+                <span class="chip">Delete task</span>
+                <span class="chip">List updates after actions</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> What happens in your code when you click the Delete button on a task?
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">3</span>
+              <h3 class="func-title">Snake Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Playable grid-based Snake game.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Snake movement</span>
+                <span class="chip">Random food</span>
+                <span class="chip">Score</span>
+                <span class="chip">Wall collision</span>
+                <span class="chip">Self collision</span>
+                <span class="chip">Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> How does your code know when the snake has hit the wall?
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">4</span>
+              <h3 class="func-title">Aim Reaction Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Timed target-clicking reaction challenge.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Random target</span>
+                <span class="chip">Clickable target</span>
+                <span class="chip">Reaction-time measurement</span>
+                <span class="chip">Score/result</span>
+                <span class="chip">Timer/game duration</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> How does your code measure the reaction time when the target is clicked?
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">5</span>
+              <h3 class="func-title">Ping Pong Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Playable Pong-style game.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Player paddle control</span>
+                <span class="chip">Ball movement</span>
+                <span class="chip">Ball collision/bounce</span>
+                <span class="chip">Opponent/second paddle</span>
+                <span class="chip">Score</span>
+                <span class="chip">Win/Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> How does your code make the ball bounce off a paddle?
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">6</span>
+              <h3 class="func-title">Dinosaur Runner Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Endless runner where the dinosaur avoids obstacles.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Dinosaur character</span>
+                <span class="chip">Obstacle generation</span>
+                <span class="chip">Jump control</span>
+                <span class="chip">Collision detection</span>
+                <span class="chip">Score</span>
+                <span class="chip">Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> How does your code make the dinosaur jump and come back down?
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="func-card">
+            <div class="func-header">
+              <span class="func-badge-num">7</span>
+              <h3 class="func-title">Flappy Bird / Bird Flapping Game</h3>
+              <span class="func-marks-badge">5 marks</span>
+            </div>
+            <p class="func-desc"><strong>What it should do:</strong> Side-scrolling bird game.</p>
+            <div class="func-mandatory">
+              <span class="func-mand-title">MANDATORY COMPONENTS</span>
+              <div class="chips-wrap">
+                <span class="chip">Bird flap/control</span>
+                <span class="chip">Gravity/falling movement</span>
+                <span class="chip">Obstacle generation</span>
+                <span class="chip">Collision detection</span>
+                <span class="chip">Score for passing obstacles</span>
+                <span class="chip">Game Over</span>
+                <span class="chip">Restart</span>
+              </div>
+            </div>
+            <div class="func-surprise">
+              🎯 <strong>Surprise Question (sample):</strong> How does your code make the bird fall down on its own?
+            </div>
+          </div>
         </div>
       </div>
     </main>

@@ -1447,12 +1447,33 @@ html.unauthenticated #login-screen {
   margin-bottom: 1.6rem;
 }
 
+/* Functionality section sticky header + timer bar */
+.func-sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 1rem 0 0.75rem;
+  margin: -2.2rem -2.4rem 1.4rem;
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+}
+/* When the section is in fullscreen expanded mode, sticky bar uses the section bg */
+#sprint-functionalities-section.is-expanded .func-sticky-bar {
+  background: var(--bg);
+  margin: -2.5rem -3rem 1.4rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
 /* Functionality Menu Cards */
 .func-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.35rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
 }
+
 .func-card {
   background: var(--bg-raised);
   border: 1px solid var(--card-border);
@@ -1669,6 +1690,121 @@ html.unauthenticated #login-screen {
   color: #7C3AED;
   margin: 0;
 }
+
+/* Functionality Reveal Schedule Table */
+.schedule-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.2rem 0 0.8rem;
+}
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.92rem;
+  background: var(--bg-raised);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+}
+.schedule-table th, .schedule-table td {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+.schedule-table th {
+  background: rgba(124, 58, 237, 0.12);
+  color: #7C3AED;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+.schedule-table tr:last-child td {
+  border-bottom: none;
+}
+.schedule-note {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+}
+
+/* Penalty Callout Box */
+.penalty-callout-box {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-left: 5px solid #F59E0B;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.6rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.penalty-callout-box strong {
+  color: #F59E0B;
+}
+
+/* Sprint Timer Bar */
+.sprint-timer-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-soft);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-md);
+}
+.sprint-timer-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.sprint-timer-val {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 4rem;
+  text-align: center;
+}
+.sprint-timer-val.low {
+  color: var(--hard);
+}
+
+.reveal-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0 0;
+  flex-wrap: wrap;
+}
+
+
+/* Expanded Fullscreen View for Functionalities */
+#sprint-functionalities-section.is-expanded {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: 0;
+  border: none;
+  padding: 2.5rem 3rem 4rem;
+  box-shadow: none;
+  animation: fade-in 0.2s var(--ease);
+}
+#sprint-functionalities-section.is-expanded .func-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+
+
 
 
 

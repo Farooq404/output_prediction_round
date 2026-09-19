@@ -273,19 +273,38 @@
   if (el.btnAiSprintBack) el.btnAiSprintBack.addEventListener("click", goHome);
 
   /* ------------------------------------------------------------------ */
-  /* AI SPRINT — REVEAL TIMER (7 min, independent of main clock)        */
+  /* AI SPRINT — REVEAL TIMER (editable, independent of main clock)     */
   /* ------------------------------------------------------------------ */
   (function () {
-    const REVEAL_DURATION = 270; // 4:30
-    let revealRemaining = REVEAL_DURATION;
+    const DEFAULT_REVEAL_DURATION = 270; // 4:30 default
+    let customRevealDuration = DEFAULT_REVEAL_DURATION;
+    try {
+      const stored = localStorage.getItem("aisprint-timer-duration");
+      if (stored !== null) {
+        const parsed = parseInt(stored, 10);
+        if (!Number.isNaN(parsed) && parsed > 0) {
+          customRevealDuration = parsed;
+        }
+      }
+    } catch (e) {}
+
+    let revealRemaining = customRevealDuration;
     let revealRunning = false;
     let revealIntervalId = null;
 
     const revealDisplay = document.getElementById("sprint-reveal-timer");
+    const inputMin = document.getElementById("sprint-timer-input-min");
+    const inputSec = document.getElementById("sprint-timer-input-sec");
+    const btnSet = document.getElementById("btn-reveal-timer-set");
     const btnStart = document.getElementById("btn-reveal-timer-start");
     const btnReset = document.getElementById("btn-reveal-timer-reset");
     const funcSection = document.getElementById("sprint-functionalities-section");
     const btnExpand = document.getElementById("btn-func-expand");
+
+    function syncInputsFromDuration(dur) {
+      if (inputMin) inputMin.value = Math.floor(dur / 60);
+      if (inputSec) inputSec.value = dur % 60;
+    }
 
     function formatRevealTime(s) {
       const m = Math.floor(s / 60);
@@ -301,6 +320,35 @@
       if (btnStart) {
         btnStart.textContent = revealRunning ? "Pause" : "Start";
         btnStart.disabled = done;
+      }
+      if (inputMin) inputMin.disabled = revealRunning;
+      if (inputSec) inputSec.disabled = revealRunning;
+      if (btnSet) btnSet.disabled = revealRunning;
+    }
+
+    function applyCustomTime() {
+      if (!inputMin || !inputSec) return;
+      let m = parseInt(inputMin.value, 10) || 0;
+      let s = parseInt(inputSec.value, 10) || 0;
+      if (m < 0) m = 0;
+      if (s < 0) s = 0;
+      if (s >= 60) {
+        m += Math.floor(s / 60);
+        s = s % 60;
+      }
+      let total = m * 60 + s;
+      if (total < 5) total = 5; // minimum 5 seconds
+      if (total > 3600) total = 3600; // max 60 minutes
+
+      customRevealDuration = total;
+      syncInputsFromDuration(customRevealDuration);
+      try {
+        localStorage.setItem("aisprint-timer-duration", String(customRevealDuration));
+      } catch (e) {}
+
+      if (!revealRunning) {
+        revealRemaining = customRevealDuration;
+        renderReveal();
       }
     }
 
@@ -335,10 +383,13 @@
 
     function resetReveal() {
       pauseReveal();
-      revealRemaining = REVEAL_DURATION;
+      revealRemaining = customRevealDuration;
       renderReveal();
     }
 
+    if (btnSet) btnSet.addEventListener("click", applyCustomTime);
+    if (inputMin) inputMin.addEventListener("change", applyCustomTime);
+    if (inputSec) inputSec.addEventListener("change", applyCustomTime);
     if (btnStart) btnStart.addEventListener("click", toggleReveal);
     if (btnReset) btnReset.addEventListener("click", resetReveal);
 
@@ -350,6 +401,8 @@
       });
     }
 
+    syncInputsFromDuration(customRevealDuration);
+    revealRemaining = customRevealDuration;
     renderReveal(); // seed initial display
   })();
 

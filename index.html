@@ -344,7 +344,7 @@
           </div>
           <div class="rule-item">
             <span class="rule-num">8</span>
-            <div class="rule-text"><strong>One Surprise Technical Question</strong> — Only one surprise technical question will be asked. It will be drawn from the sample questions below (or a similar variant) for one of the functionalities you selected, and is worth 5 marks only.</div>
+            <div class="rule-text"><strong>One Surprise Technical Question</strong> — Only one surprise technical question will be asked. It will be asked for one of the functionalities you selected, and is worth 5 marks only.</div>
           </div>
           <div class="rule-item">
             <span class="rule-num">9</span>
@@ -426,8 +426,16 @@
           <!-- Reveal Timer Bar -->
           <div class="reveal-action-bar">
             <div class="sprint-timer-bar">
-              <span class="sprint-timer-label">Reveal Timer</span>
+              <span class="sprint-timer-label">Timer</span>
               <span class="sprint-timer-val" id="sprint-reveal-timer">04:30</span>
+            </div>
+            <div class="sprint-timer-edit-group">
+              <div class="sprint-timer-inputs">
+                <input type="number" id="sprint-timer-input-min" class="sprint-time-input" min="0" max="60" value="4" aria-label="Timer Minutes" title="Minutes" />
+                <span class="sprint-time-sep">:</span>
+                <input type="number" id="sprint-timer-input-sec" class="sprint-time-input" min="0" max="59" value="30" aria-label="Timer Seconds" title="Seconds" />
+              </div>
+              <button id="btn-reveal-timer-set" class="btn btn-outline btn-sm" title="Apply new timer duration">Set Time</button>
             </div>
             <button id="btn-reveal-timer-start" class="btn btn-primary btn-sm">Start</button>
             <button id="btn-reveal-timer-reset" class="btn btn-outline btn-sm">Reset</button>
@@ -464,9 +472,6 @@
                 <span class="chip">Correct result output</span>
               </div>
             </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> How does your Clear/reset button work in the code?
-            </div>
           </div>
 
           <!-- Card 2 -->
@@ -487,9 +492,6 @@
                 <span class="chip">Delete task</span>
                 <span class="chip">List updates after actions</span>
               </div>
-            </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> What happens in your code when you click the Delete button on a task?
             </div>
           </div>
 
@@ -513,9 +515,6 @@
                 <span class="chip">Restart</span>
               </div>
             </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> How does your code know when the snake has hit the wall?
-            </div>
           </div>
 
           <!-- Card 4 -->
@@ -536,9 +535,6 @@
                 <span class="chip">Timer/game duration</span>
                 <span class="chip">Restart</span>
               </div>
-            </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> How does your code measure the reaction time when the target is clicked?
             </div>
           </div>
 
@@ -562,9 +558,6 @@
                 <span class="chip">Restart</span>
               </div>
             </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> How does your code make the ball bounce off a paddle?
-            </div>
           </div>
 
           <!-- Card 6 -->
@@ -587,9 +580,6 @@
                 <span class="chip">Restart</span>
               </div>
             </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> How does your code make the dinosaur jump and come back down?
-            </div>
           </div>
 
           <!-- Card 7 -->
@@ -611,9 +601,6 @@
                 <span class="chip">Game Over</span>
                 <span class="chip">Restart</span>
               </div>
-            </div>
-            <div class="func-surprise">
-              🎯 <strong>Surprise Question (sample):</strong> How does your code make the bird fall down on its own?
             </div>
           </div>
         </div>

@@ -1729,6 +1729,22 @@ html.unauthenticated #login-screen {
   margin-top: 0.75rem;
 }
 
+/* Reveal Schedule Callout Box */
+.reveal-schedule-box {
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-left: 5px solid #7C3AED;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.reveal-schedule-box strong {
+  color: #7C3AED;
+}
+
 /* Penalty Callout Box */
 .penalty-callout-box {
   background: rgba(245, 158, 11, 0.1);
